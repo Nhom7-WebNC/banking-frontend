@@ -29,6 +29,9 @@ export const Header = () => {
               <i className="fa fa-user"></i> Thông tin tài khoản
             </DropdownItem>
             <DropdownItem>
+              <i className="fa fa-user"></i> Đổi mật khẩu 
+            </DropdownItem>
+            <DropdownItem>
               <i className="fa fa-lock"></i> Đăng xuất
             </DropdownItem>
           </DropdownMenu>

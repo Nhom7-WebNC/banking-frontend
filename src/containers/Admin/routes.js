@@ -8,13 +8,13 @@ const routes = [
   {
     path: "/admin/manage-employee",
     exact: true,
-    name: "Tạo tài khoản",
+    name: "Quản lý nhân viên",
     component: ManageEmployee,
   },
   {
     path: "/admin/manage-transaction",
     exact: true,
-    name: "Nạp tiền",
+    name: "Quản lý giao dịch",
     component: ManageTransaction,
   },
 ];

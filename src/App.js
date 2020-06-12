@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Spinner } from "reactstrap";
 import "./App.scss";
 import {
+  Customer,
   Employee,
   Admin,
   Login,
@@ -27,6 +28,12 @@ class App extends Component {
               name="Đăng kí"
               render={(props) => <Register {...props} />}
             />
+            <Route
+              path="/customer"
+              name="Khách hàng"
+              render={(props) => <Customer {...props} />}
+            />
+            
             <Route
               path="/employee"
               name="Nhân viên"

@@ -36,9 +36,9 @@ const RechargeCustomer = () => {
                   </Col>
                   <Col xs="12" md="9">
                     <Input type="text" name="text-input" />
-                    <FormText color="danger">
+                    {/* <FormText color="danger">
                       Số tài khoản không hợp lệ
-                    </FormText>
+                    </FormText> */}
                   </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -47,7 +47,7 @@ const RechargeCustomer = () => {
                   </Col>
                   <Col xs="12" md="9">
                     <Input type="text" name="text-input" />
-                    <FormText color="danger">Số tiền không hợp lệ</FormText>
+                    {/* <FormText color="danger">Số tiền không hợp lệ</FormText> */}
                   </Col>
                 </FormGroup>
               </CardBody>

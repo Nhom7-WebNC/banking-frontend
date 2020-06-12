@@ -36,9 +36,6 @@ const CreateCustomer = () => {
                   </Col>
                   <Col xs="12" md="9">
                     <Input type="text" name="text-input" />
-                    <FormText color="danger">
-                      Tên đăng nhập không hợp lệ
-                    </FormText>
                   </Col>
                 </FormGroup>
               </CardBody>
@@ -52,7 +49,6 @@ const CreateCustomer = () => {
                   </Col>
                   <Col xs="12" md="9">
                     <Input type="text" name="text-input" />
-                    <FormText color="danger">Tên đã tồn tại</FormText>
                   </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -60,8 +56,8 @@ const CreateCustomer = () => {
                     <Label htmlFor="text-input">Email</Label>
                   </Col>
                   <Col xs="12" md="9">
-                    <Input type="password" name="text-input" />
-                    <FormText color="danger">Email không hợp lệ</FormText>
+                    <Input type="text" name="text-input" />
+                    {/* <FormText color="danger">Email không hợp lệ</FormText> */}
                   </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -70,9 +66,9 @@ const CreateCustomer = () => {
                   </Col>
                   <Col xs="12" md="9">
                     <Input type="text" name="text-input" />
-                    <FormText color="danger">
+                    {/* <FormText color="danger">
                       Số điện thoại không hợp lệ
-                    </FormText>
+                    </FormText> */}
                   </Col>
                 </FormGroup>
               </CardBody>
