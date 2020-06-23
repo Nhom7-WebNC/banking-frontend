@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import {
   Button,
   Card,
@@ -14,8 +14,25 @@ import {
   InputGroupText,
   Row,
 } from "reactstrap";
+import { connector } from "../../constants";
 
 export const Login = () => {
+  const [username, setUsername] = useState("customer1");
+  const [password, setPassword] = useState("123456");
+  const history = useHistory();
+  const login = async () => {
+    // console.log(localStorage.getItem("token"));
+
+    const { data } = await connector.post("/login", {
+      username,
+      password,
+    });
+    const { accessToken } = data;
+    localStorage.setItem("token", accessToken);
+    if (accessToken) {
+      history.push("/customer");
+    }
+  };
   return (
     <div className="app flex-row align-items-center">
       <Container>
@@ -35,7 +52,12 @@ export const Login = () => {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Tên đăng nhập" />
+                      <Input
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        type="text"
+                        placeholder="Tên đăng nhập"
+                      />
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
@@ -43,15 +65,22 @@ export const Login = () => {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Mật khẩu" />
+                      <Input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Mật khẩu"
+                      />
                     </InputGroup>
                     <Row>
                       <Col xs="6">
-                        <Link to="/admin">
-                          <Button color="primary" className="px-4">
-                            Đăng nhập
-                          </Button>
-                        </Link>
+                        <Button
+                          onClick={login}
+                          color="primary"
+                          className="px-4"
+                        >
+                          Đăng nhập
+                        </Button>
                       </Col>
                       <Col xs="6" className="text-right">
                         <Button color="link" className="px-0">
