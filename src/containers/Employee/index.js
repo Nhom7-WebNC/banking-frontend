@@ -23,6 +23,11 @@ const navConfigs = {
       icon: "icon-user",
     },
     {
+      name: "Thông tin tài khoản",
+      url: "/employee/account-info",
+      icon: "icon-user",
+    },
+    {
       name: "Nạp tiền",
       url: "/employee/recharge-customer",
       icon: "icon-credit-card",
@@ -58,7 +63,6 @@ export const Employee = () => {
                   />
                 ) : null;
               })}
-              <Redirect from="/employee" to="/employee/create-customer" />
             </Switch>
           </Container>
         </main>

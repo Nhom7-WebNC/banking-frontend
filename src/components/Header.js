@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
+
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -10,6 +12,12 @@ import {
 import { AppSidebarToggler } from "@coreui/react";
 
 export const Header = () => {
+  const history = useHistory();
+
+  const logout = async () => {
+    history.push("/login");
+  };
+
   return (
     <>
       <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -26,12 +34,15 @@ export const Header = () => {
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem>
-              <i className="fa fa-user"></i> Thông tin tài khoản
+              <Link to="/accountInfo">
+                <i className="fa fa-user"></i> Thông tin tài khoản
+              </Link>
             </DropdownItem>
+
             <DropdownItem>
-              <i className="fa fa-user"></i> Đổi mật khẩu 
+              <i className="fa fa-user"></i> Đổi mật khẩu
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem onClick={logout}>
               <i className="fa fa-lock"></i> Đăng xuất
             </DropdownItem>
           </DropdownMenu>

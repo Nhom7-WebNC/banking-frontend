@@ -15,24 +15,37 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
-
+const ACCESS_TOKEN_SECRET =
+  "ac19786d39c8aad823211c351d9f59b8f275b2853239761f5ec12bf0e360cbe0c769ed65349c14286603173fb2909455ae26b09249375b353eda4c37d3a69f82";
+const jwt = require("../../../node_modules/jsonwebtoken");
 export const Login = () => {
-  const [username, setUsername] = useState("customer1");
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const history = useHistory();
   const login = async () => {
-    // console.log(localStorage.getItem("token"));
-
     const { data } = await connector.post("/login", {
       username,
       password,
     });
+
     const { accessToken } = data;
     localStorage.setItem("token", accessToken);
     if (accessToken) {
-      history.push("/customer");
+      jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
+        const username = user.name;
+        const password = user.password;
+
+        if (user.role_name == "employee") {
+          history.push("/employee");
+        } else if (user.role_name == "customer") {
+          history.push("/customer");
+        } else if (user.role.name == "admin") {
+          history.push("/admin");
+        }
+      });
     }
   };
+
   return (
     <div className="app flex-row align-items-center">
       <Container>
