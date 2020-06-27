@@ -15,6 +15,7 @@ export const Header = () => {
   const history = useHistory();
 
   const logout = async () => {
+    localStorage.clear();
     history.push("/login");
   };
 

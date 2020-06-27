@@ -12,6 +12,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Alert,
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
@@ -19,31 +20,45 @@ const ACCESS_TOKEN_SECRET =
   "ac19786d39c8aad823211c351d9f59b8f275b2853239761f5ec12bf0e360cbe0c769ed65349c14286603173fb2909455ae26b09249375b353eda4c37d3a69f82";
 const jwt = require("../../../node_modules/jsonwebtoken");
 export const Login = () => {
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState("ssss");
+
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const history = useHistory();
-  const login = async () => {
-    const { data } = await connector.post("/login", {
-      username,
-      password,
-    });
+  const login = () => {
+    const response = connector
+      .post("/login", {
+        username,
+        password,
+      })
+      .then(
+        (response) => {
+          console.log("response", response);
+          const { accessToken } = response.data;
 
-    const { accessToken } = data;
-    localStorage.setItem("token", accessToken);
-    if (accessToken) {
-      jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
-        const username = user.name;
-        const password = user.password;
+          localStorage.setItem("token", accessToken);
+          if (accessToken) {
+            jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
+              const username = user.name;
+              const password = user.password;
 
-        if (user.role_name == "employee") {
-          history.push("/employee");
-        } else if (user.role_name == "customer") {
-          history.push("/customer");
-        } else if (user.role.name == "admin") {
-          history.push("/admin");
+              if (user.role_name == "employee") {
+                history.push("/employee");
+              } else if (user.role_name == "customer") {
+                history.push("/customer");
+              } else if (user.role.name == "admin") {
+                history.push("/admin");
+              }
+            });
+          }
+        },
+        (error) => {
+          console.log("err123", error.response);
+          setError(error.response.data.msg);
+          setVisible(true);
         }
-      });
-    }
+      );
   };
 
   return (
@@ -59,6 +74,9 @@ export const Login = () => {
                     <p className="text-muted">
                       Đăng nhập vào tài khoản của bạn
                     </p>
+                    <Alert color="danger" isOpen={visible}>
+                      {error}
+                    </Alert>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
