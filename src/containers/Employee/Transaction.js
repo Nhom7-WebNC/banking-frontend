@@ -39,6 +39,7 @@ const Transaction = () => {
         (error) => {
           console.log("err123", error.response);
           setError(error.response.data.msg);
+          setDataTable();
           setVisible(true);
         }
       );
