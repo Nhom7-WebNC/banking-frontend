@@ -49,7 +49,7 @@ const CreateCustomer = () => {
         },
         (error) => {
           console.log("err123", error.response);
-          setError(error.response.data);
+          setError(error.response.data.msg);
           setVisible(true);
         }
       );

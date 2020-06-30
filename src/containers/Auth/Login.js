@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
   Button,
   Card,
@@ -20,13 +21,15 @@ const ACCESS_TOKEN_SECRET =
   "ac19786d39c8aad823211c351d9f59b8f275b2853239761f5ec12bf0e360cbe0c769ed65349c14286603173fb2909455ae26b09249375b353eda4c37d3a69f82";
 const jwt = require("../../../node_modules/jsonwebtoken");
 export const Login = () => {
+  //console.log(props);
   const [visible, setVisible] = useState(false);
-  const [error, setError] = useState("ssss");
+  const [error, setError] = useState("");
 
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const history = useHistory();
   const login = () => {
+    //console.log('submit')
     const response = connector
       .post("/login", {
         username,
@@ -69,6 +72,8 @@ export const Login = () => {
             <CardGroup>
               <Card className="p-4">
                 <CardBody>
+                  {/* <Form onSubmit={login}> */}
+
                   <Form>
                     <h1>Đăng nhập</h1>
                     <p className="text-muted">
@@ -102,11 +107,16 @@ export const Login = () => {
                         type="password"
                         placeholder="Mật khẩu"
                       />
+                      <ReCAPTCHA
+                        sitekey="6LdRZasZAAAAAEPiIxNvmczM46JcEQgv8fvxQxy2"
+                        onChange={value=>console.log(value)}
+                      />,
                     </InputGroup>
                     <Row>
                       <Col xs="6">
                         <Button
                           onClick={login}
+                          //  type="submit"
                           color="primary"
                           className="px-4"
                         >

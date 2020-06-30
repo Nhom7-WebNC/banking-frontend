@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   Col,
@@ -12,6 +12,13 @@ import {
 } from "reactstrap";
 
 const ManageEmployee = () => {
+  // useEffect(() => {
+
+  //   const fetch_data = () => {
+
+  //   }
+  //   fetch_data();
+  // }, [])
   return (
     <div className="animated fadeIn">
       <Card>
@@ -31,6 +38,12 @@ const ManageEmployee = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {/* {data.map((value, index) => <tr>
+                    <td>{value.name}</td>
+                    <td>{value.date}</td>
+                    <td>Nam</td>
+                    <td>123 tphcm</td>
+                  </tr>)} */}
                   <tr>
                     <td>Pompeius René</td>
                     <td>01/01/2020</td>
