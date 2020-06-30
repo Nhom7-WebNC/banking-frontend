@@ -107,10 +107,13 @@ export const Login = () => {
                         type="password"
                         placeholder="Mật khẩu"
                       />
+                      ,
+                    </InputGroup>
+                    <InputGroup className="mb-3">
                       <ReCAPTCHA
                         sitekey="6LdRZasZAAAAAEPiIxNvmczM46JcEQgv8fvxQxy2"
-                        onChange={value=>console.log(value)}
-                      />,
+                        onChange={value => console.log(value)}
+                      />
                     </InputGroup>
                     <Row>
                       <Col xs="6">
