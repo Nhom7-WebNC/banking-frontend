@@ -22,6 +22,7 @@ const ACCESS_TOKEN_SECRET =
 const jwt = require("../../../node_modules/jsonwebtoken");
 export const Login = () => {
   //console.log(props);
+  const recaptchaRef = React.createRef();
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
@@ -111,6 +112,7 @@ export const Login = () => {
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <ReCAPTCHA
+                        ref={recaptchaRef}
                         sitekey="6LdRZasZAAAAAEPiIxNvmczM46JcEQgv8fvxQxy2"
                         onChange={value => console.log(value)}
                       />
