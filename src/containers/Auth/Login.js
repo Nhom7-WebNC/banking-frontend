@@ -113,6 +113,7 @@ export const Login = () => {
                     <InputGroup className="mb-3">
                       <ReCAPTCHA
                         ref={recaptchaRef}
+                        size="invisible"
                         sitekey="6LdRZasZAAAAAEPiIxNvmczM46JcEQgv8fvxQxy2"
                         onChange={value => console.log(value)}
                       />
