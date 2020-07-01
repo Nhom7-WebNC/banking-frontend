@@ -1,5 +1,9 @@
 import { lazy } from "react";
 
+const InfoAccount = lazy(() =>
+    import("./InfoAccount")
+);
+
 const ListAccount = lazy(() =>
     import("./ListAccount")
 );
@@ -25,11 +29,12 @@ const ReceiveHistory = lazy(() =>
 );
 
 const routes = [
+    
     {
-        path: "/customer/list-account",
+        path: "/customer/info-account",
         exact: true,
-        name: "Danh sách tài khoản",
-        component: ListAccount,
+        name: "Thông tin tài khoản",
+        component: InfoAccount,
     },
 
     {

@@ -45,6 +45,7 @@ export const Login = () => {
           if (accessToken) {
             jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
               const username = user.name;
+              localStorage.setItem("username", username);
               const password = user.password;
 
               if (user.role_name == "employee") {

@@ -10,7 +10,16 @@ const navConfigs = {
   items: [
     {
       name: "Trang chủ",
+      // url: "/customer",
       url: "/customer",
+      icon: "icon-star",
+      //icon: "icon-home",
+    },
+
+    {
+      name: "Thông tin tài khoản",
+      // url: "/customer",
+      url: "/customer/info-account",
       icon: "icon-star",
       //icon: "icon-home",
     },
@@ -88,7 +97,7 @@ export const Customer = () => {
                     />
                   ) : null;
                 })}
-                  <Redirect from="/customer" to="/customer/list-account" />
+                  <Redirect from="/customer" to="/customer/info-account" />
               </Switch>
             </Container>
           </main>
