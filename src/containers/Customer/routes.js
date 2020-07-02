@@ -37,6 +37,13 @@ const routes = [
         component: InfoAccount,
     },
 
+    // {
+    //     path: "/customer/list-account",
+    //     exact: true,
+    //     name: "Danh sách tài khoản",
+    //     component: ListAccount,
+    // },
+
     {
         path: "/customer/list-receiver",
         exact: true,
