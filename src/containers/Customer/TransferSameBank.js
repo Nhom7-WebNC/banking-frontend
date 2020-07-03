@@ -24,7 +24,7 @@ const TransferSameBank = () => {
   const [transfer_amount, setTransferAmount] = useState("100000");
   const [transfer_name, setTransferName] = useState("Phong");
   const [receiver, setReceiver] = useState("230500002");
-  const [receiver_name, setReceiverName] = useState("Lê Công Tuyền");
+  const [receiver_name, setReceiverName] = useState("cc");
   const [amount, setAmount] = useState(4000);
   const [content, setContent] = useState("Chuyen tien cho ai");
   const [otpCode, setOtpCode] = useState("");
@@ -162,8 +162,10 @@ const TransferSameBank = () => {
                         <Input
                           value={receiver}
                           onChange={(e) => setReceiver(e.target.value)}
+                          onBlur={getReceiverName}
                           type="text"
                           name="text-input"
+                          on
                         />
                       </Col>
                     </FormGroup>
@@ -228,14 +230,6 @@ const TransferSameBank = () => {
                   </CardBody>
                   <CardFooter>
                     <Button
-                      onClick={getReceiverName}
-                      size="sm"
-                      color="primary"
-                      className="mx-2 px-5"
-                    >
-                      <i className="fa fa-dot-circle-o"></i> Lấy tên người nhận
-                    </Button>
-                    <Button
                       onClick={sendOTP}
                       size="sm"
                       color="primary"
@@ -248,7 +242,7 @@ const TransferSameBank = () => {
               </Card>
             </TabPane>
             <TabPane tabId={1}>
-              <Card>
+              <Card style={{ height: "44%" }}>
                 <Form
                   action=""
                   method="post"

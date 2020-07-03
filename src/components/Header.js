@@ -34,7 +34,11 @@ export const Header = () => {
             />
           </DropdownToggle>
           <DropdownMenu right>
-            
+            <DropdownItem>
+              <Link to="/accountInfo">
+                <i className="fa fa-user"></i> Thông tin tài khoản
+              </Link>
+            </DropdownItem>
 
             <DropdownItem>
               <i className="fa fa-user"></i> Đổi mật khẩu

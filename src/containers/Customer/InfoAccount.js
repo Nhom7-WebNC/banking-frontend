@@ -41,7 +41,6 @@ const ACCESS_TOKEN_SECRET =
 // }
 //}
 
-
 export const InfoAccount = () => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
@@ -50,23 +49,22 @@ export const InfoAccount = () => {
   const [amount, setAmount] = useState("abcdef");
   const [username, setUsername] = useState(localStorage.getItem("username"));
 
-
   const getInfoAccount = async () => {
     console.log("Chay API getInfoAccount,username: ", username);
 
     // const response = await connector.post("/customers/infoAccount",{username})
     //console.log(response)
-    const response = await connector.get("/customers/infoAccount", { params: { username } })
+    const response = await connector
+      .get("/customers/infoAccount", { params: { username } })
       .then(
         ({ data }) => {
-          console.log(data.data.checking_account_amount)
+          console.log(data.data.checking_account_amount);
           // console.log("a");
           // console.log("response:",{response});
           setAccountNumber(data.data.checking_account_number);
           setAmount(data.data.checking_account_amount);
         },
         (error) => {
-
           // console.log("AccountNumber: ",  {accountNumber} );
           // console.log("Amount: ", { amount });
           console.log("err123", error.response);
@@ -74,11 +72,11 @@ export const InfoAccount = () => {
           setVisible(true);
         }
       );
-  }
+  };
 
   useEffect(() => {
-    getInfoAccount()
-  }, [])
+    getInfoAccount();
+  }, []);
   return (
     <div className="animated fadeIn">
       <Card>
@@ -115,7 +113,7 @@ export const InfoAccount = () => {
           </FormGroup> */}
         </CardBody>
       </Card>
-    </div >
+    </div>
   );
 };
 

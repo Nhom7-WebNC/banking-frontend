@@ -5,6 +5,7 @@ import { Container } from "reactstrap";
 import { AppHeader, AppBreadcrumb } from "@coreui/react";
 import { Header, Sidebar } from "../../components";
 import routes from "./routes";
+import { useHistory } from "react-router-dom";
 
 const navConfigs = {
   items: [
@@ -31,6 +32,12 @@ const navConfigs = {
 };
 
 export const Admin = () => {
+  const history = useHistory();
+
+  if (localStorage.getItem("role") != "admin") {
+    localStorage.clear();
+    history.push("/login");
+  }
   return (
     <div className="app">
       <AppHeader fixed>

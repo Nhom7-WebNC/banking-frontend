@@ -29,7 +29,8 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const history = useHistory();
-  const login = () => {
+  const login = (e) => {
+    e.preventDefault();
     //console.log('submit')
     const response = connector
       .post("/login", {
@@ -39,23 +40,17 @@ export const Login = () => {
       .then(
         (response) => {
           console.log("response", response);
-          const { accessToken } = response.data;
-
+          const { accessToken, userName, userId, userRoleName } = response.data;
           localStorage.setItem("token", accessToken);
-          if (accessToken) {
-            jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
-              const username = user.name;
-              localStorage.setItem("username", username);
-              const password = user.password;
-
-              if (user.role_name == "employee") {
-                history.push("/employee");
-              } else if (user.role_name == "customer") {
-                history.push("/customer");
-              } else if (user.role.name == "admin") {
-                history.push("/admin");
-              }
-            });
+          localStorage.setItem("username", userName);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("role", userRoleName);
+          if (userRoleName == "employee") {
+            history.push("/employee");
+          } else if (userRoleName == "customer") {
+            history.push("/customer");
+          } else if (userRoleName == "admin") {
+            history.push("/admin");
           }
         },
         (error) => {
@@ -76,7 +71,7 @@ export const Login = () => {
                 <CardBody>
                   {/* <Form onSubmit={login}> */}
 
-                  <Form>
+                  <Form onSubmit={login}>
                     <h1>Đăng nhập</h1>
                     <p className="text-muted">
                       Đăng nhập vào tài khoản của bạn
@@ -112,18 +107,18 @@ export const Login = () => {
                       ,
                     </InputGroup>
                     <InputGroup className="mb-3">
-                      <ReCAPTCHA
+                      {/* <ReCAPTCHA
                         ref={recaptchaRef}
                         size="invisible"
                         sitekey="6LdRZasZAAAAAEPiIxNvmczM46JcEQgv8fvxQxy2"
-                        onChange={value => console.log(value)}
-                      />
+                        onChange={(value) => console.log(value)}
+                      /> */}
                     </InputGroup>
                     <Row>
                       <Col xs="6">
                         <Button
-                          onClick={login}
-                          //  type="submit"
+                          // onClick={login}
+                          type="submit"
                           color="primary"
                           className="px-4"
                         >
@@ -139,7 +134,7 @@ export const Login = () => {
                   </Form>
                 </CardBody>
               </Card>
-              <Card
+              {/* <Card
                 className="text-white bg-primary py-5 d-md-down-none"
                 style={{ width: "44%" }}
               >
@@ -163,7 +158,7 @@ export const Login = () => {
                     </Link>
                   </div>
                 </CardBody>
-              </Card>
+              </Card> */}
             </CardGroup>
           </Col>
         </Row>

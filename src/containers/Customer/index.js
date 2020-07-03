@@ -5,17 +5,16 @@ import { Container } from "reactstrap";
 import { AppHeader, AppBreadcrumb } from "@coreui/react";
 import { Header, Sidebar } from "../../components";
 import routes from "./routes";
+import { useHistory } from "react-router-dom";
 
 const navConfigs = {
   items: [
     {
       name: "Trang chủ",
-      // url: "/customer",
       url: "/customer",
       icon: "icon-star",
       //icon: "icon-home",
     },
-
     {
       name: "Thông tin tài khoản",
       // url: "/customer",
@@ -23,7 +22,7 @@ const navConfigs = {
       icon: "icon-star",
       //icon: "icon-home",
     },
-    
+
     {
       name: "Danh sách tài khoản",
       url: "/customer/list-account",
@@ -69,41 +68,46 @@ const navConfigs = {
     {
       name: "Nhận  tiền",
       url: "/customer/history-receive",
-    }
-    
+    },
   ],
 };
 
 export const Customer = () => {
-    return (
-      <div className="app">
-        <AppHeader fixed>
-          <Header />
-        </AppHeader>
-        <div className="app-body">
-          <Sidebar navigation={navConfigs} />
-          <main className="main">
-            <AppBreadcrumb appRoutes={routes} router={router} />
-            <Container fluid>
-              <Switch>
-                {routes.map((route, idx) => {
-                  return route.component ? (
-                    <Route
-                      key={idx}
-                      path={route.path}
-                      exact={route.exact}
-                      name={route.name}
-                      render={(props) => <route.component {...props} />}
-                    />
-                  ) : null;
-                })}
-                  <Redirect from="/customer" to="/customer/info-account" />
-              </Switch>
-            </Container>
-          </main>
-        </div>
+  const history = useHistory();
+
+  if (localStorage.getItem("role") != "customer") {
+    localStorage.clear();
+    history.push("/login");
+  }
+  return (
+    <div className="app">
+      <AppHeader fixed>
+        <Header />
+      </AppHeader>
+      <div className="app-body">
+        <Sidebar navigation={navConfigs} />
+        <main className="main">
+          <AppBreadcrumb appRoutes={routes} router={router} />
+          <Container fluid>
+            <Switch>
+              {routes.map((route, idx) => {
+                return route.component ? (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    exact={route.exact}
+                    name={route.name}
+                    render={(props) => <route.component {...props} />}
+                  />
+                ) : null;
+              })}
+              <Redirect from="/customer" to="/customer/list-account" />
+            </Switch>
+          </Container>
+        </main>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 //  export default Customer;

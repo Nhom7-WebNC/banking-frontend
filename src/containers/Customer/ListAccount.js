@@ -73,7 +73,7 @@ const ListAccount = () => {
           </Row>
         </CardBody>
       </Card>
-    </div >
+    </div>
   );
 };
 
