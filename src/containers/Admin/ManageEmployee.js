@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   Col,
@@ -9,9 +9,37 @@ import {
   Table,
   CardBody,
   CardHeader,
+  Button,
 } from "reactstrap";
-
+import { connector } from "../../constants";
 const ManageEmployee = () => {
+
+  const [todos, setDataTable] = useState();
+  const [error, setError] = useState("");
+
+  const getEmployee = ()=>{
+    const respon = connector.get("/admin/manage-employee",{
+
+    })
+    .then(
+      (response) => {
+        setError("");
+        console.log(response);
+        setDataTable(response.data.data);
+
+      },
+      (error) => {
+        console.log("err123", error.response);
+        setError(error.response.data.msg);
+        setDataTable();
+        
+      }
+    )
+
+  }
+  useEffect(() => {
+    getEmployee();
+  }, []);
   return (
     <div className="animated fadeIn">
       <Card>
@@ -21,6 +49,14 @@ const ManageEmployee = () => {
         <CardBody>
           <Row>
             <Col>
+            <Button
+          onClick={getEmployee}
+          size="sm"
+          color="primary"
+          className="mx-2 px-5"
+        >
+          <i className="fa fa-dot-circle-o"></i> Xác nhận
+            </Button>
               <Table responsive bordered>
                 <thead>
                   <tr>
@@ -31,43 +67,28 @@ const ManageEmployee = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {data.map((value, index) => <tr>
-                    <td>{value.name}</td>
-                    <td>{value.date}</td>
-                    <td>Nam</td>
-                    <td>123 tphcm</td>
-                  </tr>)} */}
-                  <tr>
-                    <td>Pompeius René</td>
-                    <td>01/01/2020</td>
-                    <td>Nam</td>
-                    <td>123 tphcm</td>
-                  </tr>
-                  <tr>
-                    <td>Pompeius René</td>
-                    <td>01/01/2020</td>
-                    <td>Nam</td>
-                    <td>123 tphcm</td>
-                  </tr>
-                  <tr>
-                    <td>Pompeius René</td>
-                    <td>01/01/2020</td>
-                    <td>Nam</td>
-                    <td>123 tphcm</td>
-                  </tr>
-                  <tr>
-                    <td>Pompeius René</td>
-                    <td>01/01/2020</td>
-                    <td>Nam</td>
-                    <td>123 tphcm</td>
-                  </tr>
-                  <tr>
-                    <td>Pompeius René</td>
-                    <td>01/01/2020</td>
-                    <td>Nam</td>
-                    <td>123 tphcm</td>
-                  </tr>
-                </tbody>
+                      {todos != null ? (
+                        todos.activeTab0.map((todo) =>
+                          (
+                            <tr>
+                              <td>{todo.name}</td>
+                              <td>{todo.birthday}</td>
+                              <td>{todo.gender}</td>
+                              <td>{todo.address}</td>
+                              
+                            </tr>
+                          ))) : (
+                          <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            
+                          </tr>
+                        )
+
+                      }
+                    </tbody>
               </Table>
               <Pagination>
                 <PaginationItem>
