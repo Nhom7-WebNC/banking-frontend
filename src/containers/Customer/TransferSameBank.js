@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -14,27 +14,69 @@ import {
   Row,
   TabContent,
   TabPane,
+  CustomInput,
 } from "reactstrap";
 import { connector } from "../../constants";
 
 const TransferSameBank = () => {
   const history = useHistory();
-
-  const [transferer, setTransferer] = useState("3000001");
-  const [transfer_amount, setTransferAmount] = useState("100000");
-  const [transfer_name, setTransferName] = useState("Phong");
-  const [receiver, setReceiver] = useState("230500002");
-  const [receiver_name, setReceiverName] = useState("cc");
-  const [amount, setAmount] = useState(4000);
-  const [content, setContent] = useState("Chuyen tien cho ai");
+  const [checked, setChecked] = useState(false);
+  const [nameReminder, setNameReminder] = useState();
+  const [reminderNameSave, setReminderNameSave] = useState("");
+  const [transferer, setTransferer] = useState("");
+  const [transfer_amount, setTransferAmount] = useState("");
+  const [receiver, setReceiver] = useState("");
+  const [receiverName, setReceiverName] = useState("");
+  const [amount, setAmount] = useState("");
+  const [content, setContent] = useState("");
   const [otpCode, setOtpCode] = useState("");
-
   const [payFee, setPayFee] = useState("tranferer");
   const [activeTab, setActiveTab] = useState(0);
   const [trueOtp, setTrueOtp] = useState(0);
-  // const getNameReceiver = async () => {
+  const getNameReceiver = async () => {
+    const user_id = localStorage.getItem("userId");
+    const response = connector
+      .post("/customers/getReceiverList", {
+        user_id: user_id,
+      })
+      .then(
+        (response) => {
+          console.log("response3", response.rows);
+          setNameReminder(response.rows);
+          //
+        },
+        (error) => {
+          console.log("err123", error.response);
+        }
+      );
+  };
 
-  // };
+  const getInfoAccount = async () => {
+    const username = localStorage.getItem("username");
+    console.log("username", username);
+    const response = connector
+      .post("/customers/getAccount", {
+        username: username,
+      })
+      .then(
+        (response) => {
+          console.log("response", response);
+          setTransferer(response.checking_account_number);
+          setTransferAmount(response.checking_account_amount);
+        },
+        (error) => {
+          console.log("err123", error.response);
+        }
+      );
+  };
+
+  useEffect(() => {
+    getInfoAccount();
+  }, []);
+  useEffect(() => {
+    getNameReceiver();
+  }, []);
+
   const getReceiverName = async () => {
     connector
       .post("/accounts/PPNBankDetail", {
@@ -44,15 +86,15 @@ const TransferSameBank = () => {
       .then(
         (response) => {
           console.log("response", response);
-          setReceiverName(response.data.name);
-          console.log("recei1", receiver_name);
+          setReceiverName(response.name);
+          console.log("recei1", receiverName);
         },
         (error) => {
           setReceiverName("Tên người hưởng");
           console.log("err : ", error.response);
         }
       );
-    console.log("recei2", { receiver_name });
+    console.log("recei2", { receiverName });
   };
   const sendOTP = async () => {
     setActiveTab(1);
@@ -72,6 +114,11 @@ const TransferSameBank = () => {
       );
   };
   const submit = async () => {
+    if (checked == true) {
+      if (reminderNameSave == "") {
+        reminderNameSave = receiverName;
+      }
+    }
     console.log("trueotp", trueOtp);
     if (trueOtp == otpCode) {
       connector
@@ -81,6 +128,7 @@ const TransferSameBank = () => {
           amount: amount,
           content: content,
           payFee: payFee,
+          reminder: reminderNameSave,
         })
         .then(
           (response) => {
@@ -147,11 +195,24 @@ const TransferSameBank = () => {
                         <Label htmlFor="text-input">Tìm kiếm</Label>
                       </Col>
                       <Col xs="6" md="3">
-                        <Input
-                          placeholder="Nhập tên, tên gợi nhớ"
-                          type="text"
-                          name="text-input"
-                        />
+                        <CustomInput
+                          type="select"
+                          name="customSelect"
+                          id="exampleSelectMulti"
+                          onChange={(e) => setReceiver(e.target.value)}
+                          onBlur={getReceiverName}
+                        >
+                          <option selected value="0"></option>
+                          {receiverName != null ? (
+                            receiverName.map((item) => (
+                              <option value={item.reminder_account_number}>
+                                {item.name_reminiscent}
+                              </option>
+                            ))
+                          ) : (
+                            <option></option>
+                          )}
+                        </CustomInput>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -174,9 +235,44 @@ const TransferSameBank = () => {
                         <Label htmlFor="text-input">Tên người hưởng</Label>
                       </Col>
                       <Col xs="12" md="3">
-                        <Label>{receiver_name} </Label>
+                        <Label>{receiverName} </Label>
                       </Col>
                     </FormGroup>
+                    <FormGroup row>
+                      <Col xs="12" md="3">
+                        <FormGroup check>
+                          <Label check>
+                            <Input
+                              type="checkbox"
+                              id="checkbox2"
+                              checked={checked}
+                              onChange={() => setChecked(!checked)}
+                            />{" "}
+                            Lưu thông tin người hưởng
+                          </Label>
+                        </FormGroup>
+                      </Col>
+                    </FormGroup>
+                    {checked != false ? (
+                      <FormGroup row>
+                        <Col md="3">
+                          <Label htmlFor="text-input">Tên viết tắt</Label>
+                        </Col>
+                        <Col xs="12" md="3">
+                          <Input
+                            value={reminderNameSave}
+                            onChange={(e) =>
+                              setReminderNameSave(e.target.value)
+                            }
+                            type="text"
+                            name="text-input"
+                            on
+                          />
+                        </Col>
+                      </FormGroup>
+                    ) : (
+                      ""
+                    )}
                   </CardBody>
 
                   <CardHeader>
@@ -288,7 +384,7 @@ const TransferSameBank = () => {
                         <Label htmlFor="text-input">Tên người hưởng</Label>
                       </Col>
                       <Col xs="12" md="3">
-                        <Label>{receiver_name} </Label>
+                        <Label>{receiverName} </Label>
                       </Col>
                     </FormGroup>
                   </CardBody>

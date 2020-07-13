@@ -17,9 +17,7 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
-const ACCESS_TOKEN_SECRET =
-  "ac19786d39c8aad823211c351d9f59b8f275b2853239761f5ec12bf0e360cbe0c769ed65349c14286603173fb2909455ae26b09249375b353eda4c37d3a69f82";
-const jwt = require("../../../node_modules/jsonwebtoken");
+
 export const Login = () => {
   //console.log(props);
   const recaptchaRef = React.createRef();
@@ -40,16 +38,19 @@ export const Login = () => {
       .then(
         (response) => {
           console.log("response", response);
-          const { accessToken, userName, userId, userRoleName } = response.data;
-          localStorage.setItem("token", accessToken);
-          localStorage.setItem("username", userName);
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("role", userRoleName);
-          if (userRoleName == "employee") {
+
+          const { token, user, account_number } = response;
+          localStorage.setItem("token", token);
+          localStorage.setItem("username", user.username);
+          localStorage.setItem("userId", user.id);
+          localStorage.setItem("role", user.role);
+          localStorage.setItem("accountNumber", account_number);
+
+          if (user.role == "employee") {
             history.push("/employee");
-          } else if (userRoleName == "customer") {
+          } else if (user.role == "customer") {
             history.push("/customer");
-          } else if (userRoleName == "admin") {
+          } else if (user.role == "admin") {
             history.push("/admin");
           }
         },

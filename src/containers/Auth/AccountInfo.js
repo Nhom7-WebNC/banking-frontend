@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 // import { Link, useHistory } from "react-router-dom";
 import {
   Button,
@@ -13,25 +13,8 @@ import {
   Label,
   Row,
 } from "reactstrap";
-const ACCESS_TOKEN_SECRET =
-  "ac19786d39c8aad823211c351d9f59b8f275b2853239761f5ec12bf0e360cbe0c769ed65349c14286603173fb2909455ae26b09249375b353eda4c37d3a69f82";
-const jwt = require("../../../node_modules/jsonwebtoken");
 
- const AccountInfo = () => {
-  //   const [password, setPassword] = useState("");
-  //   const [username, setUsername] = useState("");
-  // //   const history = useHistory();
-  // //   const login = async () => {
-  // //     const { accessToken } = data;
-  // const accessToken = localStorage.getItem("token");
-  // if (accessToken) {
-  //   jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
-  //       setUsername(user.username);
-  //   });
-  // }
-  // const { data } = await connector.post("/login", {
-  //   username  });
-  // };
+const AccountInfo = () => {
   return (
     <div className="animated fadeIn">
       <Row>
