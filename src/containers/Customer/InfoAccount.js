@@ -10,8 +10,6 @@ import {
 } from "reactstrap";
 
 import { connector } from "../../constants";
-const ACCESS_TOKEN_SECRET =
-  "ac19786d39c8aad823211c351d9f59b8f275b2853239761f5ec12bf0e360cbe0c769ed65349c14286603173fb2909455ae26b09249375b353eda4c37d3a69f82";
 
 export const InfoAccount = () => {
   const [visible, setVisible] = useState(false);

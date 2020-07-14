@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-
   Col,
   Nav,
   NavItem,
@@ -24,27 +23,27 @@ const Transaction = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
-  
+
   const getTransaction = () => {
     console.log("account", accountNumber);
     const response = connector
       .get("/employee/get-transaction/" + accountNumber, {})
       .then(
         (response) => {
+          console.log("res", response);
+          console.log("resdata", response.data);
           setError("");
           setVisible(false);
-          setDataTable(response.data.data);
-
+          setDataTable(response.data);
         },
         (error) => {
           console.log("err123", error.response);
-          setError(error.response.data.msg);
+          setError(error.response.msg);
           setDataTable();
           setVisible(true);
         }
       );
   };
-
 
   return (
     <div className="animated fadeIn">
@@ -54,10 +53,11 @@ const Transaction = () => {
         </Alert>
         <Col xs="12" md="9">
           <Input
-            type = "text"
+            value={accountNumber}
+            type="text"
             name="text-input"
-          placeholder="số tài khoản"
-          onChange={(e) => setAccountNumber(e.target.value)}
+            placeholder="số tài khoản"
+            onChange={(e) => setAccountNumber(e.target.value)}
           />
         </Col>
         <Button
@@ -67,7 +67,7 @@ const Transaction = () => {
           className="mx-2 px-5"
         >
           <i className="fa fa-dot-circle-o"></i> Xác nhận
-            </Button>
+        </Button>
         <Col xs="12">
           <Nav tabs>
             <NavItem>
@@ -94,7 +94,6 @@ const Transaction = () => {
                   <Table responsive bordered>
                     <thead>
                       <tr>
-
                         <th>Số tài khoản gửi</th>
 
                         <th>Số tài khoản nhận</th>
@@ -105,26 +104,24 @@ const Transaction = () => {
                     </thead>
                     <tbody>
                       {todos != null ? (
-                        todos.activeTab0.map((todo) =>
-                          (
-                            <tr>
-                              <td>{todo.sender_account_number}</td>
-                              <td>{todo.receiver_account_number}</td>
-                              <td>{todo.amount}</td>
-                              <td>{todo.message}</td>
-                              <td>{todo.created_at}</td>
-                            </tr>
-                          ))) : (
+                        todos.activeTab0.map((todo) => (
                           <tr>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <td>{todo.sender_account_number}</td>
+                            <td>{todo.receiver_account_number}</td>
+                            <td>{todo.amount}</td>
+                            <td>{todo.message}</td>
+                            <td>{todo.created_at}</td>
                           </tr>
-                        )
-
-                      }
+                        ))
+                      ) : (
+                        <tr>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                 </Col>
@@ -154,13 +151,13 @@ const Transaction = () => {
                           </tr>
                         ))
                       ) : (
-                          <tr>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                   <Pagination>
@@ -203,26 +200,24 @@ const Transaction = () => {
                     </thead>
                     <tbody>
                       {todos != null ? (
-                        todos.activeTab1.map((todo) =>
-                          (
-                            <tr>
-                              <td>{todo.sender_account_number}</td>
-                              <td>{todo.receiver_account_number}</td>
-                              <td>{todo.amount}</td>
-                              <td>{todo.message}</td>
-                              <td>{todo.created_at}</td>
-                            </tr>
-                          ))) : (
+                        todos.activeTab1.map((todo) => (
                           <tr>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <td>{todo.sender_account_number}</td>
+                            <td>{todo.receiver_account_number}</td>
+                            <td>{todo.amount}</td>
+                            <td>{todo.message}</td>
+                            <td>{todo.created_at}</td>
                           </tr>
-                        )
-
-                      }
+                        ))
+                      ) : (
+                        <tr>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                   <Pagination>
@@ -331,7 +326,6 @@ const Transaction = () => {
                 </Col>
               </Row>
             </TabPane>
-
           </TabContent>
         </Col>
       </Row>
