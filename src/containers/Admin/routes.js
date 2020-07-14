@@ -3,6 +3,7 @@ import { lazy } from "react";
 const ManageEmployee = lazy(() => import("./ManageEmployee"));
 
 const ManageTransaction = lazy(() => import("./ManageTransaction"));
+const CreateEmployee = lazy(()=> import("./createEmployee"));
 
 const routes = [
   {
@@ -16,6 +17,12 @@ const routes = [
     exact: true,
     name: "Quản lý giao dịch",
     component: ManageTransaction,
+  },
+  {
+    path: "/admin/create-employee",
+    exact: true,
+    name: "Quản lý giao dịch",
+    component: CreateEmployee,
   },
 ];
 
