@@ -10,6 +10,8 @@ import {
   CardBody,
   CardHeader,
   Button,
+  ButtonToggle,
+  location,
 } from "reactstrap";
 import { connector } from "../../constants";
 const ManageEmployee = () => {
@@ -20,8 +22,9 @@ const ManageEmployee = () => {
     const respon = connector.get("/admin/manage-employee", {}).then(
       (response) => {
         setError("");
-        console.log(response);
+        // console.log(response);
         setDataTable(response.data);
+       
       },
       (error) => {
         console.log("err123", error.response);
@@ -32,7 +35,26 @@ const ManageEmployee = () => {
   };
   useEffect(() => {
     getEmployee();
-  }, []);
+  }, []); 
+
+  const deleteEmployee = (id)=>{
+    console.log("zzzzz"+id);
+    const abc = connector.get("/admin/delete", {}).then(
+      (response) => {
+       
+        console.log("zzzzz"+id);
+        
+       
+      },
+      (error) => {
+       
+        setError(error.response.msg);
+        
+      }
+    );
+  };
+
+  
   return (
     <div className="animated fadeIn">
       <Card>
@@ -42,13 +64,14 @@ const ManageEmployee = () => {
         <CardBody>
           <Row>
             <Col>
+            
               <Button
-                onClick={getEmployee}
+                // onClick={getEmployee}
+                href="create-employee"
                 size="sm"
                 color="primary"
                 className="mx-2 px-5"
-              >
-                <i className="fa fa-dot-circle-o"></i> Xác nhận
+              >THÊM
               </Button>
               <Table responsive bordered>
                 <thead>
@@ -57,6 +80,7 @@ const ManageEmployee = () => {
                     <th>Ngày sinh</th>
                     <th>Giới tính</th>
                     <th>Địa chỉ</th>
+                    <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -67,6 +91,16 @@ const ManageEmployee = () => {
                         <td>{todo.birthday}</td>
                         <td>{todo.gender}</td>
                         <td>{todo.address}</td>
+                          <td><Button
+                          
+                          
+                          onClick={deleteEmployee(todo.id)} 
+                          color = "danger"> 
+                          XOÁ  </Button>
+                          &ensp;
+                          <ButtonToggle color="primary">SỬA</ButtonToggle>
+                          {todo.id}</td>
+                        
                       </tr>
                     ))
                   ) : (
@@ -75,6 +109,7 @@ const ManageEmployee = () => {
                       <td>-</td>
                       <td>-</td>
                       <td>-</td>
+                      <td></td>
                     </tr>
                   )}
                 </tbody>
