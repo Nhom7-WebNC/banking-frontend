@@ -15,11 +15,15 @@ import {
   TabContent,
   TabPane,
   CustomInput,
+  Alert,
 } from "reactstrap";
 import { connector } from "../../constants";
 
 const TransferSameBank = () => {
+  const [error, setError] = useState("");
+  const [visible, setVisible] = useState(false);
   const history = useHistory();
+  const [checkSelect, setCheckSelect] = useState(false);
   const [checked, setChecked] = useState(false);
   const [reminderName, setReminderName] = useState();
   const [reminderNameSave, setReminderNameSave] = useState("");
@@ -30,24 +34,29 @@ const TransferSameBank = () => {
   const [amount, setAmount] = useState("");
   const [content, setContent] = useState("");
   const [otpCode, setOtpCode] = useState("");
-  const [payFee, setPayFee] = useState("tranferer");
+  const [payFee, setPayFee] = useState("transferer");
   const [activeTab, setActiveTab] = useState(0);
   const [trueOtp, setTrueOtp] = useState(0);
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const getReminderName = async () => {
     const user_id = localStorage.getItem("userId");
     const response = connector
       .post("/customers/getReceiverList", {
         user_id: user_id,
-        bank_code: "TUB",
+        bank_code: "PPNBank",
       })
       .then(
         (response) => {
           console.log("response3", response.rows);
           setReminderName(response.rows);
+          setVisible(false);
+
           //
         },
         (error) => {
           console.log("err123", error.response);
+          setError(error.response.data.msg);
+          setVisible(true);
         }
       );
   };
@@ -64,9 +73,12 @@ const TransferSameBank = () => {
           console.log("response", response);
           setTransferer(response.checking_account_number);
           setTransferAmount(response.checking_account_amount);
+          setVisible(false);
         },
         (error) => {
           console.log("err123", error.response);
+          setError(error.response.data.msg);
+          setVisible(true);
         }
       );
   };
@@ -89,39 +101,43 @@ const TransferSameBank = () => {
           console.log("response", response);
           setReceiverName(response.name);
           console.log("recei1", receiverName);
+          setVisible(false);
         },
         (error) => {
           setReceiverName("Tên người hưởng");
-          console.log("err : ", error.response);
+          setError(error.response.data.msg);
+          setVisible(true);
         }
       );
     console.log("recei2", { receiverName });
   };
   const sendOTP = async () => {
-    setActiveTab(1);
-    connector
-      .post("/customers/sendOTP", {
-        account_number: transferer,
-      })
-      .then(
-        (response) => {
-          console.log("email oke");
-          console.log(response.data.msg);
-          setTrueOtp(response.data.msg);
-        },
-        (error) => {
-          console.log("email loi");
-        }
-      );
-  };
-  const submit = async () => {
-    if (checked == true) {
-      if (reminderNameSave == "") {
-        reminderNameSave = receiverName;
-      }
+    if (checked == true && reminderNameSave == "") {
+      setReminderNameSave(receiverName);
     }
+    if (visible != true) {
+      setActiveTab(1);
+
+      connector
+        .post("/customers/sendOTP", {
+          account_number: transferer,
+        })
+        .then(
+          (response) => {
+            console.log("email oke");
+            console.log(response.msg);
+            setTrueOtp(response.msg);
+          },
+          (error) => {
+            console.log("email loi");
+          }
+        );
+    }
+  };
+
+  const submit = async () => {
     console.log("trueotp", trueOtp);
-    if (trueOtp == otpCode) {
+    if (trueOtp == otpCode && visible != true) {
       connector
         .post("/customers/transferSameBank", {
           transferer: transferer,
@@ -130,10 +146,12 @@ const TransferSameBank = () => {
           content: content,
           payFee: payFee,
           reminder: reminderNameSave,
+          user_id: userId,
+          checked: checked,
         })
         .then(
           (response) => {
-            history.push("/employee");
+            history.push("/customer");
 
             console.log("response", response);
           },
@@ -153,6 +171,9 @@ const TransferSameBank = () => {
           <TabContent activeTab={activeTab}>
             <TabPane tabId={0}>
               <Card>
+                <Alert color="danger" isOpen={visible}>
+                  {error}
+                </Alert>
                 <Form
                   action=""
                   method="post"
@@ -200,8 +221,15 @@ const TransferSameBank = () => {
                           type="select"
                           name="customSelect"
                           id="exampleSelectMulti"
-                          onChange={(e) => setReminderName(e.target.value)}
-                          onBlur={getReminderName}
+                          onChange={(e) => {
+                            setReceiver(e.target.value);
+                            if (e.target.value != 0) {
+                              setCheckSelect(true);
+                            } else {
+                              setCheckSelect(false);
+                            }
+                          }}
+                          onBlur={getReceiverName}
                         >
                           <option selected value="0"></option>
                           {reminderName != null ? (
@@ -239,21 +267,25 @@ const TransferSameBank = () => {
                         <Label>{receiverName} </Label>
                       </Col>
                     </FormGroup>
-                    <FormGroup row>
-                      <Col xs="12" md="3">
-                        <FormGroup check>
-                          <Label check>
-                            <Input
-                              type="checkbox"
-                              id="checkbox2"
-                              checked={checked}
-                              onChange={() => setChecked(!checked)}
-                            />{" "}
-                            Lưu thông tin người hưởng
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </FormGroup>
+                    {checkSelect != true ? (
+                      <FormGroup row>
+                        <Col xs="12" md="3">
+                          <FormGroup check>
+                            <Label check>
+                              <Input
+                                type="checkbox"
+                                id="checkbox2"
+                                checked={checked}
+                                onChange={() => setChecked(!checked)}
+                              />{" "}
+                              Lưu thông tin người hưởng
+                            </Label>
+                          </FormGroup>
+                        </Col>
+                      </FormGroup>
+                    ) : (
+                      ""
+                    )}
                     {checked != false ? (
                       <FormGroup row>
                         <Col md="3">
@@ -415,7 +447,11 @@ const TransferSameBank = () => {
                         <Label htmlFor="text-input">Phí chuyển tiền</Label>
                       </Col>
                       <Col xs="6" md="3">
-                        <Label>Người chuyển trả</Label>
+                        {payFee == "transferer" ? (
+                          <Label>Nguời chuyển trả (3000d)</Label>
+                        ) : (
+                          <Label>Nguời hưởng trả (3000d)</Label>
+                        )}
                       </Col>
                     </FormGroup>
 
