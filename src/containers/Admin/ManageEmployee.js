@@ -38,17 +38,21 @@ const ManageEmployee = () => {
   }, []); 
 
   const deleteEmployee = (id)=>{
-    console.log("zzzzz"+id);
-    const abc = connector.get("/admin/delete", {}).then(
+    
+    const abc = connector.get("/admin/delete/" + id, {}).then(
       (response) => {
        
-        console.log("zzzzz"+id);
+        setError("");
+        // console.log(response);
+        setDataTable(response.data);
         
        
       },
       (error) => {
        
+        console.log("err123", error.response);
         setError(error.response.msg);
+        setDataTable();
         
       }
     );
@@ -94,7 +98,7 @@ const ManageEmployee = () => {
                           <td><Button
                           
                           
-                          onClick={deleteEmployee(todo.id)} 
+                          onClick={()=> deleteEmployee(todo.id)} 
                           color = "danger"> 
                           XOÁ  </Button>
                           &ensp;
