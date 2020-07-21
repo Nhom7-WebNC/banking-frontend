@@ -31,6 +31,7 @@ const CreateCustomer = () => {
   const [visible, setVisible] = useState(false);
 
   const createCustomer = () => {
+    console.log(birthday);
     const response = connector
       .post("/employee/create-account", {
         username,
