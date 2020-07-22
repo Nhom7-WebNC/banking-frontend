@@ -13,10 +13,12 @@ import {
   Label,
   Row,
   Alert,
+  
 } from "reactstrap";
 import { connector } from "../../constants";
 
-const CreateCustomer = () => {
+const CreateCustomer = (props) => {
+  const history = useHistory();
   const [username, setUsername] = useState("abc");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -29,6 +31,8 @@ const CreateCustomer = () => {
 
   const [error, setError] = useState("ssss");
   const [visible, setVisible] = useState(false);
+
+  
 
   const createCustomer = () => {
     const response = connector
@@ -47,6 +51,7 @@ const CreateCustomer = () => {
       .then(
         (response) => {
           console.log("response", response.data);
+          history.push("admin/manage-employee");
         },
         (error) => {
           console.log("err123", error.response);
@@ -58,6 +63,7 @@ const CreateCustomer = () => {
 
   return (
     <div className="animated fadeIn">
+      
       <Row>
         <Col xs="12">
           <Card>
