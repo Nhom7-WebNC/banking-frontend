@@ -25,13 +25,17 @@ import {
   Spinner
 
 } from "reactstrap";
+
 import { connector } from "../../constants";
 import Moment from 'moment';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from 'react-loader-spinner';
+
 const ManageEmployee = (props) => {
   Moment.locale('vn');
   const [todos, setDataTable] = useState();
   const [error, setError] = useState("");
-
+  
 ////define for form edit info modal
 const [username, setUsername] = useState("abc");
   const [password, setPassword] = useState("");
@@ -79,19 +83,25 @@ const toggle = (todo) => {
 };
 ///////
 
+///define loading 
+const [loanding,setLoading] = useState(false);
 
+////
   const getEmployee = () => {
+    setLoading(true);
     const respon = connector.get("/admin/manage-employee", {}).then(
       (response) => {
         setError("");
         // console.log(response);
         setDataTable(response.data);
+        setLoading(false);
        
       },
       (error) => {
         console.log("err123", error.response);
         setError(error.response.msg);
         setDataTable();
+        setLoading(false);
       }
     );
   };
@@ -99,6 +109,7 @@ const toggle = (todo) => {
   ///update info employee
   const updateEmployee = () => {
     console.log("update....!!!!");
+    setLoading(true);
     const respon = connector.post("/admin/update/" , {
       username,
         password,
@@ -116,6 +127,7 @@ const toggle = (todo) => {
         setError("");
         setModal(!modal);
         setDataTable(response.data);
+        setLoading(false);
        
       },
       (error) => {
@@ -123,6 +135,7 @@ const toggle = (todo) => {
         setError(error.response.msg);
         setModal(!modal);
         setDataTable();
+        setLoading(false);
       }
     );
   };
@@ -131,14 +144,14 @@ const toggle = (todo) => {
   }, []); 
 
   const deleteEmployee = (id)=>{
-    
+    setLoading(true);
     const abc = connector.get("/admin/delete/" + id, {}).then(
       (response) => {
        
         setError("");
         // console.log(response);
         setDataTable(response.data);
-        
+        setLoading(false);
        
       },
       (error) => {
@@ -146,7 +159,7 @@ const toggle = (todo) => {
         console.log("err123", error.response);
         setError(error.response.msg);
         setDataTable();
-        
+        setLoading(false);
       }
     );
   };
@@ -155,6 +168,12 @@ const toggle = (todo) => {
   return (
     <div className="animated fadeIn">
       
+       <Modal isOpen={loanding} toggle={toggle} className={className} unmountOnClose={unmountOnClose} style={{backgroundColor: 'gray',width: '15rem',height: '5rem'}}>
+       <Button color="primary" disabled style={{width: '15rem',height: '5rem'}}>
+              <Spinner animation="grow" variant="info" />
+    Loading...
+  </Button>
+       </Modal>
       
       <Modal isOpen={modal} toggle={toggle} className={className} unmountOnClose={unmountOnClose}>
                 <ModalHeader toggle={toggle}>{ModalTitle}</ModalHeader>
@@ -329,6 +348,7 @@ const toggle = (todo) => {
               >THÊM
               </Button>
               <Table responsive bordered>
+              
                 <thead>
                   <tr>
                     <th>Họ tên</th>
@@ -339,6 +359,7 @@ const toggle = (todo) => {
                   </tr>
                 </thead>
                 <tbody>
+                
                   {todos != null ? (
                     todos.map((todo) => (
                       <tr>
