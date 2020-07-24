@@ -8,9 +8,11 @@ import {
   Admin,
   Login,
   Register,
-  
+
   Page404,
   Page500,
+  ForgetPassword,
+  ChangePassword,
 } from "./containers";
 
 class App extends Component {
@@ -24,12 +26,25 @@ class App extends Component {
               name="Đăng nhập"
               render={(props) => <Login {...props} />}
             />
+
+            <Route
+              path="/forget-password"
+              name="Quên mật khẩu"
+              render={(props) => <ForgetPassword {...props} />}
+            />
+
+            <Route
+              path="/change-password"
+              name="Đổi mật khẩu"
+              render={(props) => <ChangePassword {...props} />}
+            />
+
             <Route
               path="/register"
               name="Đăng kí"
               render={(props) => <Register {...props} />}
             />
-        
+
             <Route
               path="/customer"
               name="Khách hàng"
