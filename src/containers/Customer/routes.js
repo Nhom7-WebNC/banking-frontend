@@ -15,12 +15,6 @@ const ReceiveHistory = lazy(() => import("./ReceiveHistory"));
 
 const routes = [
   {
-    path: "/customer/info-account",
-    exact: true,
-    name: "Thông tin tài khoản",
-    component: InfoAccount,
-  },
-  {
     path: "/customer/list-account",
     exact: true,
     name: "Danh sách tài khoản",

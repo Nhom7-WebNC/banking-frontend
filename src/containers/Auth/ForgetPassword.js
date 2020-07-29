@@ -140,10 +140,7 @@ export const ForgetPassword = () => {
                                                                 type="text"
                                                                 placeholder="Mã xác nhận"
                                                             />
-                                            ,
                                         </InputGroup>
-
-
                                                         <Row>
                                                             <Col xs="6">
                                                                 <Button

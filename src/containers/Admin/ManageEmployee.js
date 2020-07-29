@@ -12,32 +12,29 @@ import {
   CardFooter,
   Button,
   ButtonToggle,
-  location,
   Modal,
   ModalHeader,
-   ModalBody, 
-   ModalFooter,
-   Input,
-   Form,
+  ModalBody,
+  ModalFooter,
+  Input,
+  Form,
   FormGroup,
   Label,
   Alert,
-  Spinner
-
+  Spinner,
 } from "reactstrap";
 
 import { connector } from "../../constants";
-import Moment from 'moment';
+import Moment from "moment";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from 'react-loader-spinner';
 
 const ManageEmployee = (props) => {
-  Moment.locale('vn');
+  Moment.locale("vn");
   const [todos, setDataTable] = useState();
   const [error, setError] = useState("");
-  
-////define for form edit info modal
-const [username, setUsername] = useState("abc");
+
+  ////define for form edit info modal
+  const [username, setUsername] = useState("abc");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone_number, setPhone_number] = useState("");
@@ -46,47 +43,42 @@ const [username, setUsername] = useState("abc");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("Nam");
   const [personal_number, setPersonal_number] = useState("");
-  const [id,setId] = useState("");
-  
+  const [id, setId] = useState("");
+
   const [visible, setVisible] = useState(false);
   //////////
 
-//define for modal
-  
-const {
-  buttonLabel,
-  className
-} = props;
-const [modal, setModal] = useState(false);
-const [unmountOnClose, setUnmountOnClose] = useState(true);
+  //define for modal
 
+  const { buttonLabel, className } = props;
+  const [modal, setModal] = useState(false);
+  const [unmountOnClose, setUnmountOnClose] = useState(true);
 
-const changeUnmountOnClose = e => {
+  const changeUnmountOnClose = (e) => {
     let value = e.target.value;
     setUnmountOnClose(JSON.parse(value));
-}
-const[ModalTitle,setModalTitle] = useState();
-const toggle = (todo) => {
-  
-  setModal(!modal);
-  setUsername(todo.username);
-  setAddress(todo.address);
-  setBirthday(todo.birthday);
-  setEmail(todo.email);
-  setName(todo.name);
-  setPersonal_number(todo.personal_number);
-  setGender(todo.gender);
-  setPhone_number(todo.phone_number);
-  
-  setModalTitle(todo.name);
-  setId(todo.id);
-};
-///////
+  };
+  const [ModalTitle, setModalTitle] = useState();
+  const toggle = (todo) => {
+    setModal(!modal);
+    setUsername(todo.username);
+    setAddress(todo.address);
+    setBirthday(todo.birthday);
+    setEmail(todo.email);
+    setName(todo.name);
+    setPersonal_number(todo.personal_number);
+    setGender(todo.gender);
+    setPhone_number(todo.phone_number);
 
-///define loading 
-const [loanding,setLoading] = useState(false);
+    setModalTitle(todo.name);
+    setId(todo.id);
+  };
+  ///////
 
-////
+  ///define loading
+  const [loading, setLoading] = useState(false);
+
+  ////
   const getEmployee = () => {
     setLoading(true);
     const respon = connector.get("/admin/manage-employee", {}).then(
@@ -95,7 +87,6 @@ const [loanding,setLoading] = useState(false);
         // console.log(response);
         setDataTable(response.data);
         setLoading(false);
-       
       },
       (error) => {
         console.log("err123", error.response);
@@ -110,8 +101,9 @@ const [loanding,setLoading] = useState(false);
   const updateEmployee = () => {
     console.log("update....!!!!");
     setLoading(true);
-    const respon = connector.post("/admin/update/" , {
-      username,
+    const respon = connector
+      .post("/admin/update/", {
+        username,
         password,
         name,
         phone_number,
@@ -120,42 +112,38 @@ const [loanding,setLoading] = useState(false);
         address,
         gender,
         personal_number,
-      id,
-      
-    }).then(
-      (response) => {
-        setError("");
-        setModal(!modal);
-        setDataTable(response.data);
-        setLoading(false);
-       
-      },
-      (error) => {
-        console.log("err123", error.response);
-        setError(error.response.msg);
-        setModal(!modal);
-        setDataTable();
-        setLoading(false);
-      }
-    );
+        id,
+      })
+      .then(
+        (response) => {
+          setError("");
+          setModal(!modal);
+          setDataTable(response.data);
+          setLoading(false);
+        },
+        (error) => {
+          console.log("err123", error.response);
+          setError(error.response.msg);
+          setModal(!modal);
+          setDataTable();
+          setLoading(false);
+        }
+      );
   };
   useEffect(() => {
     getEmployee();
-  }, []); 
+  }, []);
 
-  const deleteEmployee = (id)=>{
+  const deleteEmployee = (id) => {
     setLoading(true);
     const abc = connector.get("/admin/delete/" + id, {}).then(
       (response) => {
-       
         setError("");
         // console.log(response);
         setDataTable(response.data);
         setLoading(false);
-       
       },
       (error) => {
-       
         console.log("err123", error.response);
         setError(error.response.msg);
         setDataTable();
@@ -164,172 +152,175 @@ const [loanding,setLoading] = useState(false);
     );
   };
 
-  
   return (
     <div className="animated fadeIn">
-      
-       <Modal isOpen={loanding} toggle={toggle} className={className} unmountOnClose={unmountOnClose} style={{backgroundColor: 'gray',width: '15rem',height: '5rem'}}>
-       <Button color="primary" disabled style={{width: '15rem',height: '5rem'}}>
-              <Spinner animation="grow" variant="info" />
-    Loading...
-  </Button>
-       </Modal>
-      
-      <Modal isOpen={modal} toggle={toggle} className={className} unmountOnClose={unmountOnClose}>
-                <ModalHeader toggle={toggle}>{ModalTitle}</ModalHeader>
-                <ModalBody>
-                <Form
-            // onSubmit={handleSubmit(onSubmit)}
-            // action=""
-            // method="post"
-            // encType="multipart/form-data"
-            // className="form-horizontal"
-            >
-              <Alert color="danger" isOpen={visible}>
-                {error}
-              </Alert>
-              <CardHeader>
-                <strong>Thông tin đăng nhập</strong>
-              </CardHeader>
-              <CardBody>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Tên đăng nhập</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      name="text-input"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-              </CardBody>
-              
+      <Modal
+        isOpen={loading}
+        toggle={toggle}
+        className={className}
+        unmountOnClose={unmountOnClose}
+        style={{ backgroundColor: "gray", width: "15rem", height: "5rem" }}
+      >
+        <Button
+          color="primary"
+          disabled
+          style={{ width: "15rem", height: "5rem" }}
+        >
+          <Spinner animation="grow" variant="info" />
+          Loading...
+        </Button>
+      </Modal>
 
-              <CardHeader>
-                <strong>Thông tin cá nhân</strong>
-              </CardHeader>
-              <CardBody>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Họ và tên</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      name="text-input"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Số điện thoại</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      name="text-input"
-                      value={phone_number}
-                      onChange={(e) => setPhone_number(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Email</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="email"
-                      name="text-input"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Ngày sinh</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="date"
-                      name="text-input"
-                      value={Moment(birthday).format('yyyy-MM-DD')}
-                      // value = {birthday}
-                      onChange={(e) => setBirthday(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Địa chỉ</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      name="text-input"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Giới tính</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="select"
-                      name="select"
-                      id="exampleSelectMulti"
-                      value = {gender}
-                      onChange={(e) => setGender(e.target.value)}
-                    >
-                      <option  value="Nam">
-                        Nam
-                      </option>
-                      <option value="Nữ">Nữ</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
+      <Modal
+        isOpen={modal}
+        toggle={toggle}
+        className={className}
+        unmountOnClose={unmountOnClose}
+      >
+        <ModalHeader toggle={toggle}>{ModalTitle}</ModalHeader>
+        <ModalBody>
+          <Form
+          // onSubmit={handleSubmit(onSubmit)}
+          // action=""
+          // method="post"
+          // encType="multipart/form-data"
+          // className="form-horizontal"
+          >
+            <Alert color="danger" isOpen={visible}>
+              {error}
+            </Alert>
+            <CardHeader>
+              <strong>Thông tin đăng nhập</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Tên đăng nhập</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="text"
+                    name="text-input"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+            </CardBody>
 
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Chứng minh nhân dân</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      name="text-input"
-                      value={personal_number}
-                      onChange={(e) => setPersonal_number(e.target.value)}
-                    />
-                  </Col>
-                </FormGroup>
-              </CardBody>
-              <CardFooter>
-                <Button
-                  size="sm"
-                  color="primary"
-                  className="mx-2 px-5"
-                  //onClick={}
-                >
-                  <i className="fa fa-dot-circle-o"></i> Lưu
-                </Button>
-                
-              </CardFooter>
-            </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={()=>updateEmployee()}>Lưu</Button>{' '}
-                  <Button color="secondary" onClick={toggle}>Quay về</Button>
-                </ModalFooter>
-            </Modal>
+            <CardHeader>
+              <strong>Thông tin cá nhân</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Họ và tên</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="text"
+                    name="text-input"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Số điện thoại</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="text"
+                    name="text-input"
+                    value={phone_number}
+                    onChange={(e) => setPhone_number(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Email</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="email"
+                    name="text-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Ngày sinh</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="date"
+                    name="text-input"
+                    value={Moment(birthday).format("yyyy-MM-DD")}
+                    // value = {birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Địa chỉ</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="text"
+                    name="text-input"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Giới tính</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="select"
+                    name="select"
+                    id="exampleSelectMulti"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                  </Input>
+                </Col>
+              </FormGroup>
+
+              <FormGroup row>
+                <Col md="3">
+                  <Label htmlFor="text-input">Chứng minh nhân dân</Label>
+                </Col>
+                <Col xs="12" md="9">
+                  <Input
+                    type="text"
+                    name="text-input"
+                    value={personal_number}
+                    onChange={(e) => setPersonal_number(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+            </CardBody>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => updateEmployee()}>
+            Lưu
+          </Button>{" "}
+          <Button color="secondary" onClick={toggle}>
+            Quay về
+          </Button>
+        </ModalFooter>
+      </Modal>
       <Card>
         <CardHeader>
           <strong>Quản lý nhân viên</strong>
@@ -337,18 +328,17 @@ const [loanding,setLoading] = useState(false);
         <CardBody>
           <Row>
             <Col>
-            
               <Button
                 // onClick={getEmployee}
                 href="create-employee"
                 size="sm"
                 color="primary"
                 className="mx-2 px-5"
-                style={{margin: 10}}
-              >THÊM
+                style={{ margin: 10 }}
+              >
+                THÊM
               </Button>
               <Table responsive bordered>
-              
                 <thead>
                   <tr>
                     <th>Họ tên</th>
@@ -359,7 +349,6 @@ const [loanding,setLoading] = useState(false);
                   </tr>
                 </thead>
                 <tbody>
-                
                   {todos != null ? (
                     todos.map((todo) => (
                       <tr>
@@ -367,17 +356,21 @@ const [loanding,setLoading] = useState(false);
                         <td>{todo.birthday}</td>
                         <td>{todo.gender}</td>
                         <td>{todo.address}</td>
-                          <td><Button
-                          
-                          
-                          onClick={()=> deleteEmployee(todo.id)} 
-                          color = "danger"> 
-                          XOÁ  </Button>
+                        <td>
+                          <Button
+                            onClick={() => deleteEmployee(todo.id)}
+                            color="danger"
+                          >
+                            XOÁ{" "}
+                          </Button>
                           &ensp;
-                          <ButtonToggle color="primary"
-                          onClick={()=>toggle(todo)}>SỬA</ButtonToggle>
-                          {todo.id}</td>
-                        
+                          <ButtonToggle
+                            color="primary"
+                            onClick={() => toggle(todo)}
+                          >
+                            SỬA
+                          </ButtonToggle>
+                        </td>
                       </tr>
                     ))
                   ) : (

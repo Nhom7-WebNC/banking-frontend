@@ -1,80 +1,85 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
+  Button,
   Card,
-  Col,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Row,
-  Table,
   CardBody,
   CardHeader,
+  Col,
+  FormGroup,
+  Label,
 } from "reactstrap";
 
-const ListAccount = () => {
+import { connector } from "../../constants";
+
+export const InfoAccount = () => {
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState("");
+
+  const [accountNumber, setAccountNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+
+  const getInfoAccount = async () => {
+    const response = connector
+      .post("/customers/getAccount", {
+        username,
+      })
+      .then(
+        (response) => {
+          console.log("response", response.data);
+          setAccountNumber(response.checking_account_number);
+          setAmount(response.checking_account_amount);
+        },
+
+        (error) => {
+          console.log("err123", error.response);
+          setError(error.response.data.msg);
+          setVisible(true);
+        }
+      );
+  };
+
+  useEffect(() => {
+    getInfoAccount();
+  }, []);
   return (
     <div className="animated fadeIn">
       <Card>
         <CardHeader>
-          <strong>Danh sách tài khoản</strong>
+          <strong>Thông tin tài khoản</strong>
         </CardHeader>
 
         <CardBody>
-          <Row>
-            <Col>
-              <Table responsive bordered>
-                <thead>
-                  <tr>
-                    <th>Số tài khoản</th>
-                    <th>Số dư</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>123456</td>
-                    <td>100000</td>
-                  </tr>
-                  <tr>
-                    <td>123456</td>
-                    <td>100000</td>
-                  </tr>
-                  <tr>
-                    <td>123456</td>
-                    <td>100000</td>
-                  </tr>
-                  <tr>
-                    <td>123456</td>
-                    <td>100000</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <Pagination>
-                <PaginationItem>
-                  <PaginationLink previous tag="button">
-                    Trước
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active>
-                  <PaginationLink tag="button">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem className="page-item">
-                  <PaginationLink tag="button">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink tag="button">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink next tag="button">
-                    Sau
-                  </PaginationLink>
-                </PaginationItem>
-              </Pagination>
+          <FormGroup row>
+            <Col md="3">
+              <Label htmlFor="text-input">Số tài khoản</Label>
             </Col>
-          </Row>
+            <Col md="3">
+              <Label htmlFor="text-input">{accountNumber}</Label>
+            </Col>
+          </FormGroup>
+          <FormGroup row>
+            <Col md="3">
+              <Label htmlFor="text-input">Số dư</Label>
+            </Col>
+            <Col md="3">
+              <Label htmlFor="text-input">{amount}</Label>
+            </Col>
+          </FormGroup>
+          {/* <FormGroup row>
+            <Button
+              onClick={getInfoAccount}
+              //  type="submit"
+              color="primary"
+              className="px-4"
+            >
+              Đăng nhập
+                        </Button>
+          </FormGroup> */}
         </CardBody>
       </Card>
     </div>
   );
 };
 
-export default ListAccount;
+export default InfoAccount;

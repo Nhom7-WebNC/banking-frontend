@@ -15,8 +15,8 @@ export const InfoAccount = () => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
-  const [accountNumber, setAccountNumber] = useState("123456");
-  const [amount, setAmount] = useState("abcdef");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [amount, setAmount] = useState("");
   const [username, setUsername] = useState(localStorage.getItem("username"));
 
   const getInfoAccount = async () => {
@@ -27,9 +27,10 @@ export const InfoAccount = () => {
       .then(
         (response) => {
           console.log("response", response.data);
-          setAccountNumber(response.data.accounts[0].checking_account_number);
-          setAmount(response.data.accounts[0].checking_account_amount);
+          setAccountNumber(response.checking_account_number);
+          setAmount(response.checking_account_amount);
         },
+
         (error) => {
           console.log("err123", error.response);
           setError(error.response.data.msg);

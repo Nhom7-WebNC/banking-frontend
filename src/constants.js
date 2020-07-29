@@ -54,3 +54,38 @@ connector.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+// instance.interceptors.response.use(
+//   (resp) => resp.data,
+//   (error) => {
+//     const { response } = error;
+//     if (response) {
+//       switch (response.status) {
+//         case 401:
+//           return getNewAccessToken().then(() => {
+//             const newtoken = localStorage.getItem("accessToken");
+//             error.config.headers["Authorization"] = Bearer ${newtoken};
+//             Promise.resolve(axios(error.config))
+//           });
+//           break;
+//         case 403:
+//         case 405:
+//         case 404:
+//         case 500:
+//         case 503:
+//           break;
+//         default:
+//           break;
+//       }
+//     } else {
+//       // history.push({
+//       //   pathname: "/login",
+//       //   state: {
+//       //     status: 500,
+//       //     statusText: "Internal Server Error",
+//       //   },
+//       // });
+//     }
+
+//     return Promise.reject(error);
+//   }
+// );

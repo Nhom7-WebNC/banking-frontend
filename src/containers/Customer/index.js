@@ -15,13 +15,6 @@ const navConfigs = {
       icon: "icon-star",
       //icon: "icon-home",
     },
-    {
-      name: "Thông tin tài khoản",
-      // url: "/customer",
-      url: "/customer/info-account",
-      icon: "icon-star",
-      //icon: "icon-home",
-    },
 
     {
       name: "Danh sách tài khoản",
