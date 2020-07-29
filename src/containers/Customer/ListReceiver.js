@@ -9,7 +9,6 @@ import {
   Table,
   CardBody,
   CardHeader,
-  CardFooter,
   Button,
   ButtonToggle,
   Modal,
@@ -115,13 +114,7 @@ const ListReceiver = (props) => {
       >
         <ModalHeader toggle={toggle}>{ModalTitle}</ModalHeader>
         <ModalBody>
-          <Form
-          // onSubmit={handleSubmit(onSubmit)}
-          // action=""
-          // method="post"
-          // encType="multipart/form-data"
-          // className="form-horizontal"
-          >
+          <Form>
             <Alert color="danger" isOpen={visible}>
               {error}
             </Alert>
@@ -210,11 +203,11 @@ const ListReceiver = (props) => {
                       </tr>
                     ))
                   ) : (
-                    <tr>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                  )}
+                      <tr>
+                        <td>-</td>
+                        <td>-</td>
+                      </tr>
+                    )}
                 </tbody>
               </Table>
               <Pagination>

@@ -13,6 +13,10 @@ const SendHistory = lazy(() => import("./SendHistory.js"));
 
 const ReceiveHistory = lazy(() => import("./ReceiveHistory"));
 
+const DebtCreate = lazy(() => import("./DebtCreate"));
+
+const DebtReceive = lazy(() => import("./DebtReceive"));
+
 const routes = [
   {
     path: "/customer/list-account",
@@ -40,6 +44,20 @@ const routes = [
     exact: true,
     name: "Chuyển tiền liên ngân hàng",
     component: TransferOtherBank,
+  },
+
+  {
+    path: "/customer/debt-create",
+    exact: true,
+    name: "Nhắc nợ đã tạo",
+    component: DebtCreate,
+  },
+
+  {
+    path: "/customer/debt-receive",
+    exact: true,
+    name: "Nhắc nợ đã nhận",
+    component: DebtReceive,
   },
 
   {

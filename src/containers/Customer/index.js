@@ -47,8 +47,23 @@ const navConfigs = {
     },
 
     {
+      name: "Quản lý nhắc nợ",
+      icon: "icon-star",
+      //icon: "icon-money"
+    },
+
+    {
+      name: "Nhắc nợ đã tạo",
+      url: "/customer/debt-create",
+    },
+
+    {
+      name: "Nhắc nợ đã nhận",
+      url: "/customer/debt-receive",
+    },
+
+    {
       name: "Lịch sử giao dịch",
-      //url: "/customer/transfer-same-bank",
       icon: "icon-star",
       //icon: "icon-money"
     },
