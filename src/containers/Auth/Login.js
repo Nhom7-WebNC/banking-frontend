@@ -17,6 +17,7 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
+import { ForgetPassword } from "./ChangePassword"
 
 export const Login = () => {
   //console.log(props);
@@ -127,9 +128,11 @@ export const Login = () => {
                         </Button>
                       </Col>
                       <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">
-                          Quên mật khẩu?
+                        <Link to="/forget-password">
+                          <Button color="link" className="px-0">
+                            Quên mật khẩu?
                         </Button>
+                        </Link>
                       </Col>
                     </Row>
                   </Form>
@@ -164,6 +167,6 @@ export const Login = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div >
   );
 };

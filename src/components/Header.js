@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 
 import { AppSidebarToggler } from "@coreui/react";
+import { ChangePassword } from "../containers/Auth/ChangePassword";
 
 export const Header = () => {
   const history = useHistory();
@@ -41,7 +42,9 @@ export const Header = () => {
             </DropdownItem>
 
             <DropdownItem>
-              <i className="fa fa-user"></i> Đổi mật khẩu
+              <Link to="/change-password">
+                <i className="fa fa-user"></i> Đổi mật khẩu
+              </Link>
             </DropdownItem>
             <DropdownItem onClick={logout}>
               <i className="fa fa-lock"></i> Đăng xuất
