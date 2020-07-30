@@ -17,11 +17,19 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
-import { ForgetPassword } from "./ChangePassword"
+import { ForgetPassword } from "./ChangePassword";
 
 export const Login = () => {
   //console.log(props);
   const recaptchaRef = React.createRef();
+  function onChange(value) {
+    console.log("Captcha value:", value);
+  }
+  // onSubmit = () => {
+  //   const recaptchaValue = recaptchaRef.current.getValue();
+  //   this.props.onSubmit(recaptchaValue);
+  // };
+  
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
@@ -109,12 +117,13 @@ export const Login = () => {
                       ,
                     </InputGroup>
                     <InputGroup className="mb-3">
-                      {/* <ReCAPTCHA
-                        ref={recaptchaRef}
-                        size="invisible"
-                        sitekey="6LdRZasZAAAAAEPiIxNvmczM46JcEQgv8fvxQxy2"
-                        onChange={(value) => console.log(value)}
-                      /> */}
+                      <form >
+                        <ReCAPTCHA
+                          ref={recaptchaRef}
+                          sitekey="Your client site key"
+                          onChange={onChange}
+                        />
+                      </form>
                     </InputGroup>
                     <Row>
                       <Col xs="6">
@@ -131,7 +140,7 @@ export const Login = () => {
                         <Link to="/forget-password">
                           <Button color="link" className="px-0">
                             Quên mật khẩu?
-                        </Button>
+                          </Button>
                         </Link>
                       </Col>
                     </Row>
@@ -167,6 +176,6 @@ export const Login = () => {
           </Col>
         </Row>
       </Container>
-    </div >
+    </div>
   );
 };

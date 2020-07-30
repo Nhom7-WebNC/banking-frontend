@@ -1,98 +1,121 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+// import ReCAPTCHA from "react-google-recaptcha";
 import {
   Button,
   Card,
   CardBody,
-  CardFooter,
-  CardHeader,
+  CardGroup,
   Col,
+  Container,
   Form,
-  FormGroup,
   Input,
-  Label,
-  Row,
-  Alert,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Alert,
+  Row,
 } from "reactstrap";
+import { connector } from "../../constants";
+// import { ForgetPassword } from "./ChangePassword"
 
 export const ChangePassword = () => {
-  const [error, setError] = useState("");
+  //console.log(props);
+  // const recaptchaRef = React.createRef();
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState("");
+
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const history = useHistory();
+
+
   return (
-    <div className="animated fadeIn">
-      <Row>
-        <Col xs="12">
-          <Card>
-            <Alert color="danger" isOpen={visible}>
-              {error}
-            </Alert>
-            <Form
-              action=""
-              method="post"
-              encType="multipart/form-data"
-              className="form-horizontal"
-            >
-              <CardHeader>
-                <strong>Đổi mật khẩu</strong>
-              </CardHeader>
-              <CardBody>
-                {/* <InputGroup className="mb-4">
-                                    <InputGroupAddon addonType="prepend">
-                                        <InputGroupText>
-                                            <i className="icon-user"></i>
-                                        </InputGroupText>
-                                        <InputGroupText>
-                                            Username11111111111111
-                                                                </InputGroupText>
-                                    </InputGroupAddon>
-                                </InputGroup> */}
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Tên truy cập</Label>
-                  </Col>
-                  <Col md="3">
-                    <InputGroupText> Username11111111111111</InputGroupText>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Mật khẩu hiện tại</Label>
-                  </Col>
-                  <Col md="3">
-                    <Input type="text" name="text-input" />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Mật khẩu mới</Label>
-                  </Col>
-                  <Col xs="6" md="3">
-                    <Input type="password" name="text-input" />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="text-input">Nhập lại mật khẩu</Label>
-                  </Col>
-                  <Col xs="6" md="3">
-                    <Input type="password" name="text-input" />
-                  </Col>
-                </FormGroup>
-              </CardBody>
-              <CardFooter>
-                <Button size="sm" color="primary" className="mx-2 px-5">
-                  <i className="fa fa-dot-circle-o"></i> Xác nhận
-                </Button>
-              </CardFooter>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+    <div className="app flex-row align-items-center">
+      <Container>
+        <Row className="justify-content-center">
+          <Col md="6">
+            <CardGroup>
+              <Card className="p-4">
+                <CardBody>
+
+                  <Form>
+                    <h1>Đổi mật khẩu</h1>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-user"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input readOnly
+                        value="username1231214234"
+                        type="text"
+                        placeholder="Tên đăng nhập"
+                      />
+                    </InputGroup>
+
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-lock"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        // value={username}
+                        // onChange={(e) => setUsername(e.target.value)}
+                        type="password"
+                        placeholder="Mật khẩu hiện tại"
+                      />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-lock"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        // value={password}
+                        // onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Mật khẩu mới"
+                      />
+                      ,
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-lock"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        // value={password}
+                        // onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Xác nhận mật khẩu"
+                      />
+                      ,
+                    </InputGroup>
+                    <Row>
+                      <Col xs="6">
+                        <Button
+                          // onClick={login}
+                          type="submit"
+                          color="primary"
+                          className="px-4"
+                        >
+                          Xác nhận
+                        </Button>
+                      </Col>
+
+                    </Row>
+                  </Form>
+                </CardBody>
+              </Card>
+
+            </CardGroup>
+          </Col>
+        </Row>
+      </Container>
+    </div >
   );
 };
-
-export default ChangePassword;

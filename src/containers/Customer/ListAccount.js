@@ -7,6 +7,7 @@ import {
   Col,
   FormGroup,
   Label,
+  Input,
 } from "reactstrap";
 
 import { connector } from "../../constants";
@@ -50,7 +51,7 @@ export const InfoAccount = () => {
         </CardHeader>
 
         <CardBody>
-          <FormGroup row>
+          {/* <FormGroup row>
             <Col md="3">
               <Label htmlFor="text-input">Số tài khoản</Label>
             </Col>
@@ -65,17 +66,28 @@ export const InfoAccount = () => {
             <Col md="3">
               <Label htmlFor="text-input">{amount}</Label>
             </Col>
-          </FormGroup>
-          {/* <FormGroup row>
-            <Button
-              onClick={getInfoAccount}
-              //  type="submit"
-              color="primary"
-              className="px-4"
-            >
-              Đăng nhập
-                        </Button>
           </FormGroup> */}
+
+          <CardBody>
+            <FormGroup row>
+              <Col md="3">
+                <Label htmlFor="text-input">Số tài khoản</Label>
+              </Col>
+              <Col xs="12" md="3">
+                <Input type="select" name="select" id="exampleSelectMulti">
+                  <option selected>{accountNumber}</option>
+                </Input>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col md="3">
+                <Label htmlFor="text-input">Số dư khả dụng</Label>
+              </Col>
+              <Col xs="12" md="3">
+                <Label htmlFor="text-input">{amount}</Label>
+              </Col>
+            </FormGroup>
+          </CardBody>
         </CardBody>
       </Card>
     </div>

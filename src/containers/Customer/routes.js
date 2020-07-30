@@ -19,10 +19,10 @@ const DebtReceive = lazy(() => import("./DebtReceive"));
 
 const routes = [
   {
-    path: "/customer/list-account",
+    path: "/customer/info-account",
     exact: true,
-    name: "Danh sách tài khoản",
-    component: ListAccount,
+    name: "Thông tin tài khoản",
+    component: InfoAccount,
   },
 
   {

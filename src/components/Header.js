@@ -28,9 +28,9 @@ export const Header = () => {
       <Nav className="ml-auto" navbar>
         <UncontrolledDropdown nav direction="down">
           <DropdownToggle nav>
-            <img
-              src="https://jetsport.com.au/assets/backend/images/default-avatar.png"
-              className="img-avatar"
+            <img style={{width: 40, height: 40}}
+              src="https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+              className="img-avatar "
               alt="admin@bootstrapmaster.com"
             />
           </DropdownToggle>

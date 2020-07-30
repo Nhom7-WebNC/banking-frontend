@@ -21,13 +21,22 @@ const navConfigs = {
     {
       name: "Quản lý nhân viên",
       url: "/admin/manage-employee",
-      icon: "icon-people",
+      icon: "icon-star",
     },
     {
       name: "Danh sách giao dịch",
       url: "/admin/manage-transaction",
-      icon: "icon-calendar",
+      icon: "icon-star",
     },
+    {
+      name: "Theo khoảng thời gian",
+      url: "/admin/manage-transaction-time",
+    },
+    {
+      name: "Theo ngân hàng",
+      url: "/admin/manage-transaction",
+    },
+    
   ],
 };
 

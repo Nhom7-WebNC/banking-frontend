@@ -11,29 +11,25 @@ const navConfigs = {
   items: [
     {
       name: "Trang chủ",
-      url: "/customer",
+      url: "/customer/info-account",
       icon: "icon-star",
-      //icon: "icon-home",
     },
 
-    {
-      name: "Danh sách tài khoản",
-      url: "/customer/list-account",
-      icon: "icon-star",
-      //icon: "icon-user",
-    },
+    // {
+    //   name: "Danh sách tài khoản",
+    //   url: "/customer/list-account",
+    //   icon: "icon-star",
+    // },
 
     {
       name: "Danh sách người nhận",
       url: "/customer/list-receiver",
       icon: "icon-star",
-      //icon: "icon-people"
     },
 
     {
       name: "Chuyển tiền",
       icon: "icon-star",
-      //icon: "icon-money"
     },
 
     {
@@ -49,7 +45,6 @@ const navConfigs = {
     {
       name: "Quản lý nhắc nợ",
       icon: "icon-star",
-      //icon: "icon-money"
     },
 
     {
@@ -65,7 +60,6 @@ const navConfigs = {
     {
       name: "Lịch sử giao dịch",
       icon: "icon-star",
-      //icon: "icon-money"
     },
 
     {
@@ -109,7 +103,7 @@ export const Customer = () => {
                   />
                 ) : null;
               })}
-              <Redirect from="/customer" to="/customer/list-account" />
+              <Redirect from="/customer" to="/customer/info-account" />
             </Switch>
           </Container>
         </main>
