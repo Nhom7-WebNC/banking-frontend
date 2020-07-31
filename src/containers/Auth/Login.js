@@ -17,19 +17,21 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
-import { ForgetPassword } from "./ChangePassword";
 
 export const Login = () => {
   //console.log(props);
   const recaptchaRef = React.createRef();
-  function onChange(value) {
+  const onChange = (value) => {
     console.log("Captcha value:", value);
+    localStorage.setItem("captcha", value);
+    if (value == null) {
+      // alert("Captcha không đúng.");
+      document.getElementById("captcha-text").textContent="Captcha không đúng.";
+      value.preventDefault();
+      return false;
+    }
   }
-  // onSubmit = () => {
-  //   const recaptchaValue = recaptchaRef.current.getValue();
-  //   this.props.onSubmit(recaptchaValue);
-  // };
-  
+
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
@@ -46,7 +48,7 @@ export const Login = () => {
       })
       .then(
         (response) => {
-          console.log("response", response);
+          // console.log("response", response);
 
           const { token, user, account_number } = response;
           localStorage.setItem("token", token);
@@ -79,11 +81,10 @@ export const Login = () => {
             <CardGroup>
               <Card className="p-4">
                 <CardBody>
-                  {/* <Form onSubmit={login}> */}
 
                   <Form onSubmit={login}>
                     <h1>Đăng nhập</h1>
-                    <p className="text-muted">
+                    <p className="text-muted" id="captcha-text">
                       Đăng nhập vào tài khoản của bạn
                     </p>
                     <Alert color="danger" isOpen={visible}>
@@ -116,19 +117,18 @@ export const Login = () => {
                       />
                       ,
                     </InputGroup>
+
+                    {/* Recaptcha */}
                     <InputGroup className="mb-3">
-                      <form >
-                        <ReCAPTCHA
-                          ref={recaptchaRef}
-                          sitekey="Your client site key"
-                          onChange={onChange}
-                        />
-                      </form>
+                      <ReCAPTCHA
+                        sitekey="6LdavrgZAAAAAAcfImSqzWvU9IDN4e2AyLHQxE4y"
+                        onChange={onChange}
+                      />
+                      ,
                     </InputGroup>
                     <Row>
                       <Col xs="6">
                         <Button
-                          // onClick={login}
                           type="submit"
                           color="primary"
                           className="px-4"
