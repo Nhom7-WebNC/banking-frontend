@@ -21,16 +21,12 @@ import { connector } from "../../constants";
 export const Login = () => {
   //console.log(props);
   const recaptchaRef = React.createRef();
-  const onChange = (value) => {
+  const getCaptcha = (value) => {
     console.log("Captcha value:", value);
-    localStorage.setItem("captcha", value);
-    if (value == null) {
-      // alert("Captcha không đúng.");
-      document.getElementById("captcha-text").textContent="Captcha không đúng.";
-      value.preventDefault();
-      return false;
-    }
+    localStorage.setItem("captcha", value);    
+    return false;
   }
+  // console.log(grecaptcha.getResponse());
 
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
@@ -40,7 +36,6 @@ export const Login = () => {
   const history = useHistory();
   const login = (e) => {
     e.preventDefault();
-    //console.log('submit')
     const response = connector
       .post("/login", {
         username,
@@ -48,21 +43,28 @@ export const Login = () => {
       })
       .then(
         (response) => {
-          // console.log("response", response);
+          // var x = grecaptcha.getResponse();
+          // var x=localStorage.getItem("captcha");
+          var x=1;
+          if (x == null) {
+            document.getElementById("captcha").innerHTML =
+              "Captcha không đúng";
+            return false;
+          } else {
+            const { token, user, account_number } = response;
+            localStorage.setItem("token", token);
+            localStorage.setItem("username", user.username);
+            localStorage.setItem("userId", user.id);
+            localStorage.setItem("role", user.role);
+            localStorage.setItem("accountNumber", account_number);
 
-          const { token, user, account_number } = response;
-          localStorage.setItem("token", token);
-          localStorage.setItem("username", user.username);
-          localStorage.setItem("userId", user.id);
-          localStorage.setItem("role", user.role);
-          localStorage.setItem("accountNumber", account_number);
-
-          if (user.role == "employee") {
-            history.push("/employee");
-          } else if (user.role == "customer") {
-            history.push("/customer");
-          } else if (user.role == "admin") {
-            history.push("/admin");
+            if (user.role == "employee") {
+              history.push("/employee");
+            } else if (user.role == "customer") {
+              history.push("/customer");
+            } else if (user.role == "admin") {
+              history.push("/admin");
+            }
           }
         },
         (error) => {
@@ -81,10 +83,9 @@ export const Login = () => {
             <CardGroup>
               <Card className="p-4">
                 <CardBody>
-
                   <Form onSubmit={login}>
                     <h1>Đăng nhập</h1>
-                    <p className="text-muted" id="captcha-text">
+                    <p className="text-muted">
                       Đăng nhập vào tài khoản của bạn
                     </p>
                     <Alert color="danger" isOpen={visible}>
@@ -122,17 +123,14 @@ export const Login = () => {
                     <InputGroup className="mb-3">
                       <ReCAPTCHA
                         sitekey="6LdavrgZAAAAAAcfImSqzWvU9IDN4e2AyLHQxE4y"
-                        onChange={onChange}
+                        onChange={getCaptcha}
                       />
-                      ,
+                      <div id="captcha"></div>
+                      
                     </InputGroup>
                     <Row>
                       <Col xs="6">
-                        <Button
-                          type="submit"
-                          color="primary"
-                          className="px-4"
-                        >
+                        <Button type="submit" color="primary" className="px-4">
                           Đăng nhập
                         </Button>
                       </Col>
