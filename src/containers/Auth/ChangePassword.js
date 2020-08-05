@@ -25,10 +25,27 @@ export const ChangePassword = () => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [username] = useState(localStorage.getItem("username"));
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPassword2, setNewPassword2] = useState("");
   const history = useHistory();
 
+  const changePassword = async (e) => {
+    e.preventDefault();
+    try {
+      const { msg } = await connector.post("/auth/changePassword", {
+        username,
+        oldPassword,
+        newPassword,
+        newPassword2,
+      });
+      alert(msg);
+      history.push("/login");
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
 
   return (
     <div className="app flex-row align-items-center">
@@ -38,8 +55,7 @@ export const ChangePassword = () => {
             <CardGroup>
               <Card className="p-4">
                 <CardBody>
-
-                  <Form>
+                  <Form onSubmit={changePassword}>
                     <h1>Đổi mật khẩu</h1>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -47,8 +63,9 @@ export const ChangePassword = () => {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input readOnly
-                        value="username1231214234"
+                      <Input
+                        readOnly
+                        value={username}
                         type="text"
                         placeholder="Tên đăng nhập"
                       />
@@ -61,8 +78,8 @@ export const ChangePassword = () => {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        // value={username}
-                        // onChange={(e) => setUsername(e.target.value)}
+                        value={oldPassword}
+                        onChange={(e) => setOldPassword(e.target.value)}
                         type="password"
                         placeholder="Mật khẩu hiện tại"
                       />
@@ -74,8 +91,8 @@ export const ChangePassword = () => {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        // value={password}
-                        // onChange={(e) => setPassword(e.target.value)}
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
                         type="password"
                         placeholder="Mật khẩu mới"
                       />
@@ -88,8 +105,8 @@ export const ChangePassword = () => {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        // value={password}
-                        // onChange={(e) => setPassword(e.target.value)}
+                        value={newPassword2}
+                        onChange={(e) => setNewPassword2(e.target.value)}
                         type="password"
                         placeholder="Xác nhận mật khẩu"
                       />
@@ -97,25 +114,22 @@ export const ChangePassword = () => {
                     </InputGroup>
                     <Row>
                       <Col xs="6">
-                        <Button
-                          // onClick={login}
-                          type="submit"
-                          color="primary"
-                          className="px-4"
-                        >
+                        <Button type="submit" color="primary" className="px-4">
                           Xác nhận
                         </Button>
-                      </Col>
 
+                        {/* <Button type="submit" color="primary" className="px-4">
+                          Hủy
+                        </Button> */}
+                      </Col>
                     </Row>
                   </Form>
                 </CardBody>
               </Card>
-
             </CardGroup>
           </Col>
         </Row>
       </Container>
-    </div >
+    </div>
   );
 };

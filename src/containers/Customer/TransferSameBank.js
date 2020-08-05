@@ -129,7 +129,7 @@ const TransferSameBank = () => {
             setTrueOtp(response.msg);
           },
           (error) => {
-            console.log("email loi");
+            console.log("email lỗi");
           }
         );
     }
@@ -156,11 +156,11 @@ const TransferSameBank = () => {
             console.log("response", response);
           },
           (error) => {
-            console.log("submit loi khi connector post");
+            console.log("submit lỗi khi connector post");
           }
         );
     } else {
-      console.log("loi submit sai otp code");
+      console.log("lỗi submit sai otp code");
     }
   };
 
@@ -253,7 +253,7 @@ const TransferSameBank = () => {
                           value={receiver}
                           onChange={(e) => setReceiver(e.target.value)}
                           onBlur={getReceiverName}
-                          type="text"
+                          type="number"
                           name="text-input"
                           on
                         />
