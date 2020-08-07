@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import ReCAPTCHA from "react-google-recaptcha";
+import Recaptcha from "react-recaptcha";
 import {
   Button,
   Card,
@@ -17,16 +17,10 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
+import { is } from "core-js/fn/object";
 
 export const Login = () => {
-  //console.log(props);
   const recaptchaRef = React.createRef();
-  const getCaptcha = (value) => {
-    console.log("Captcha value:", value);
-    localStorage.setItem("captcha", value);    
-    return false;
-  }
-  // console.log(grecaptcha.getResponse());
 
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
@@ -34,6 +28,10 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const history = useHistory();
+  
+
+  
+  
   const login = (e) => {
     e.preventDefault();
     const response = connector
@@ -43,14 +41,7 @@ export const Login = () => {
       })
       .then(
         (response) => {
-          // var x = grecaptcha.getResponse();
-          // var x=localStorage.getItem("captcha");
-          var x=1;
-          if (x == null) {
-            document.getElementById("captcha").innerHTML =
-              "Captcha không đúng";
-            return false;
-          } else {
+        
             const { token, user, account_number } = response;
             localStorage.setItem("token", token);
             localStorage.setItem("username", user.username);
@@ -65,7 +56,8 @@ export const Login = () => {
             } else if (user.role == "admin") {
               history.push("/admin");
             }
-          }
+            // document.getElementById("captcha").innerHTML = "Captcha không đúng";
+
         },
         (error) => {
           console.log("err123", error.response);
@@ -74,6 +66,8 @@ export const Login = () => {
         }
       );
   };
+
+  
 
   return (
     <div className="app flex-row align-items-center">
@@ -118,16 +112,16 @@ export const Login = () => {
                       />
                       ,
                     </InputGroup>
-
-                    {/* Recaptcha */}
+                    {/* Recaptcha
                     <InputGroup className="mb-3">
                       <ReCAPTCHA
                         sitekey="6LdavrgZAAAAAAcfImSqzWvU9IDN4e2AyLHQxE4y"
-                        onChange={getCaptcha}
+                        render="explicit"
+                        // onloadcallback={callback}
+                        verifyCallback={this.verifyCallback}
                       />
                       <div id="captcha"></div>
-                      
-                    </InputGroup>
+                    </InputGroup> */}
                     <Row>
                       <Col xs="6">
                         <Button type="submit" color="primary" className="px-4">

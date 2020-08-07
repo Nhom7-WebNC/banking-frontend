@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import {
   Button,
   Card,
@@ -12,21 +13,35 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import { connector } from "../../constants";
 
 const RechargeCustomer = () => {
+  const [accountNumber, setAccountNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState("");
+
+  const Recharge = async (e) => {
+    e.preventDefault();
+    try {
+      const { msg } = await connector.post("/employee/recharge", {
+        accountNumber,
+        amount,
+      });
+      alert(msg);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
   return (
     <div className="animated fadeIn">
       <Row>
         <Col xs="12">
           <Card>
-            <Form
-              action=""
-              method="post"
-              encType="multipart/form-data"
-              className="form-horizontal"
-            >
+            <Form onSubmit={Recharge}>
               <CardHeader>
-                <strong>Thông tin giao dịch</strong>
+                <strong>Nạp tiền vào tài khoản</strong>
               </CardHeader>
               <CardBody>
                 <FormGroup row>
@@ -34,10 +49,12 @@ const RechargeCustomer = () => {
                     <Label htmlFor="text-input">Số tài khoản</Label>
                   </Col>
                   <Col xs="12" md="9">
-                    <Input type="text" name="text-input" />
-                    {/* <FormText color="danger">
-                      Số tài khoản không hợp lệ
-                    </FormText> */}
+                    <Input
+                      value={accountNumber}
+                      onChange={(e) => setAccountNumber(e.target.value)}
+                      type="number"
+                      name="text-input"
+                    />
                   </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -45,8 +62,12 @@ const RechargeCustomer = () => {
                     <Label htmlFor="text-input">Số tiền</Label>
                   </Col>
                   <Col xs="12" md="9">
-                    <Input type="text" name="text-input" />
-                    {/* <FormText color="danger">Số tiền không hợp lệ</FormText> */}
+                    <Input
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      type="number"
+                      name="text-input"
+                    />
                   </Col>
                 </FormGroup>
               </CardBody>
@@ -57,16 +78,9 @@ const RechargeCustomer = () => {
                   color="primary"
                   className="mx-2 px-5"
                 >
-                  <i className="fa fa-dot-circle-o"></i> Lưu
+                  <i className="fa fa-dot-circle-o"></i> Nạp tiền
                 </Button>
-                <Button
-                  type="reset"
-                  size="sm"
-                  color="danger"
-                  className="mx-2 px-5"
-                >
-                  <i className="fa fa-ban"></i> Tạo lại
-                </Button>
+                
               </CardFooter>
             </Form>
           </Card>

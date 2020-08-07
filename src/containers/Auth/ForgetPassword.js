@@ -18,17 +18,71 @@ import {
   InputGroupText,
   Container,
 } from "reactstrap";
-// import { connector } from "../../constants";
+import { connector } from "../../constants";
 
 export const ForgetPassword = () => {
-  const [error, setError] = useState("");
-  const [visible, setVisible] = useState(false);
+  const error = useState("");
+  const visible = useState(false);
+  const [username, setUsername] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const history = useHistory();
+  const [activeTab, setActiveTab] = useState(0);
+  const [trueOtp, setTrueOtp] = useState(0);
+
+  const sendOTP_username = async () => {
+    // if (checked == true && reminderNameSave == "") {
+    //   setReminderNameSave(receiverName);
+    // }
+    if (visible != true) {
+      setActiveTab(1);
+
+      connector
+        .post("/sendOTP_username", {
+          username,
+        })
+        .then(
+          (response) => {
+            console.log("email ok");
+            console.log(response.msg);
+            setTrueOtp(response.msg);
+          },
+          (error) => {
+            console.log("email lỗi");
+          }
+        );
+    }
+  };
+
+  const submit = async () => {
+    console.log("trueotp", trueOtp);
+    if (trueOtp == otpCode && visible != true) {
+      const otp = trueOtp;
+      connector
+        .post("/auth/forgotPassword", {
+          username,
+          otp,
+        })
+        .then(
+          (response) => {
+            alert("Mời bạn đăng nhập lại")
+            history.push("/login");
+
+            console.log("response", response);
+          },
+          (error) => {
+            console.log("submit lỗi khi connector post");
+          }
+        );
+    } else {
+      Alert("Sai mã otp");
+    }
+  };
 
   return (
     <div className="animated fadeIn">
       <Row>
         <Col xs="12">
-          <TabContent activeTab={1}>
+          <TabContent activeTab={activeTab}>
             <TabPane tabId={0}>
               <div className="app flex-row align-items-center">
                 <Container>
@@ -41,22 +95,29 @@ export const ForgetPassword = () => {
                             <p className="text-muted">
                               Nhập tên đăng nhập của bạn
                             </p>
-                            <Alert color="danger" isOpen={visible}>
+                            {/* <Alert color="danger" isOpen={visible}>
                               {error}
-                            </Alert>
+                            </Alert> */}
                             <InputGroup className="mb-3">
                               <InputGroupAddon addonType="prepend">
                                 <InputGroupText>
                                   <i className="icon-user"></i>
                                 </InputGroupText>
                               </InputGroupAddon>
-                              <Input type="text" placeholder="Tên đăng nhập" />
+                              {/* <Input type="text" placeholder="Tên đăng nhập" /> */}
+                              <Input
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                type="text"
+                                name="text-input"
+                                placeholder="Tên đăng nhập"
+                              />
                             </InputGroup>
 
                             <Row>
                               <Col xs="12">
                                 <Button
-                                  // onClick={login}
+                                  onClick={sendOTP_username}
                                   type="submit"
                                   color="primary"
                                   className="px-4"
@@ -108,9 +169,9 @@ export const ForgetPassword = () => {
                           <CardBody>
                             <h1>Quên mật khẩu</h1>
 
-                            <Alert color="danger" isOpen={visible}>
+                            {/* <Alert color="danger" isOpen={visible}>
                               {error}
-                            </Alert>
+                            </Alert> */}
                             <InputGroup className="mb-3">
                               <InputGroupAddon addonType="prepend">
                                 <InputGroupText>
@@ -119,7 +180,7 @@ export const ForgetPassword = () => {
                               </InputGroupAddon>
                               <Input
                                 readOnly
-                                value="username1231214234"
+                                value={username}
                                 type="text"
                                 placeholder="Tên đăng nhập"
                               />
@@ -135,12 +196,18 @@ export const ForgetPassword = () => {
                                   <i className="icon-lock"></i>
                                 </InputGroupText>
                               </InputGroupAddon>
-                              <Input type="text" placeholder="Mã xác nhận" />
+                              {/* <Input type="text" placeholder="Mã xác nhận" /> */}
+                              <Input
+                                value={otpCode}
+                                onChange={(e) => setOtpCode(e.target.value)}
+                                type="text"
+                                name="text-input"
+                              />
                             </InputGroup>
                             <Row>
                               <Col xs="6">
                                 <Button
-                                  type="submit"
+                                  onClick={submit}
                                   color="primary"
                                   className="px-4"
                                 >

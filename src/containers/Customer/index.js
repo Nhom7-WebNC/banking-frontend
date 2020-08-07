@@ -62,18 +62,19 @@ const navConfigs = {
 
     {
       name: "Lịch sử giao dịch",
+      url:"/customer/transaction",
       icon: "icon-star",
     },
 
-    {
-      name: "Gửi tiền",
-      url: "/customer/history-send",
-    },
+    // {
+    //   name: "Gửi tiền",
+    //   url: "/customer/history-send",
+    // },
 
-    {
-      name: "Nhận  tiền",
-      url: "/customer/history-receive",
-    },
+    // {
+    //   name: "Nhận  tiền",
+    //   url: "/customer/history-receive",
+    // },
   ],
 };
 
