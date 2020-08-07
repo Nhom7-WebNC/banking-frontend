@@ -29,6 +29,8 @@ const navConfigs = {
 
     {
       name: "Chuyển tiền",
+      url: "/customer/transfer-same-bank",
+
       icon: "icon-star",
     },
 
@@ -45,6 +47,7 @@ const navConfigs = {
     {
       name: "Quản lý nhắc nợ",
       icon: "icon-star",
+      url: "/customer/debt",
     },
 
     {

@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   Card,
   Col,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Row,
   Table,
   CardBody,
   CardHeader,
   Button,
-  ButtonToggle,
   Modal,
   ModalHeader,
   ModalBody,
@@ -21,7 +17,6 @@ import {
   Label,
   Alert,
   Spinner,
-  toggle,
 } from "reactstrap";
 import { connector } from "../../constants";
 
@@ -57,6 +52,7 @@ const DebtCreate = (props) => {
           setVisible(false);
         },
         (error) => {
+          console.log(error.response.data.msg);
           setReceiverName("Tên người hưởng");
           setError(error.response.data.msg);
           setVisible(true);
@@ -76,13 +72,14 @@ const DebtCreate = (props) => {
         (response) => {
           console.log("response", response);
           setError("");
-          setModal(!modal2);
+          setModal2(!modal2);
           setLoading(false);
+          window.location.reload();
         },
         (error) => {
           console.log("err123", error.response);
           setError("");
-          setModal(!modal2);
+          setModal2(!modal2);
           setLoading(false);
         }
       );
@@ -101,15 +98,17 @@ const DebtCreate = (props) => {
         (response) => {
           setError("");
           setModal(!modal);
-          setDataTable(response.data);
+          // setDataTable(response.data);
           setLoading(false);
+          setVisible(false);
+          window.location.reload();
         },
         (error) => {
           console.log("err123", error.response);
-          setError(error.response.msg);
-          setModal(!modal);
-          setDataTable();
+          setError(error.response.data.msg);
+          // setModal(!modal);
           setLoading(false);
+          setVisible(true);
         }
       );
   };
@@ -271,7 +270,7 @@ const DebtCreate = (props) => {
                 </Col>
                 <Col xs="12" md="9">
                   <Input
-                    type="text"
+                    type="number"
                     name="text-input"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
@@ -378,27 +377,6 @@ const DebtCreate = (props) => {
                   )}
                 </tbody>
               </Table>
-              <Pagination>
-                <PaginationItem>
-                  <PaginationLink previous tag="button">
-                    Trước
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem active>
-                  <PaginationLink tag="button">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem className="page-item">
-                  <PaginationLink tag="button">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink tag="button">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink next tag="button">
-                    Sau
-                  </PaginationLink>
-                </PaginationItem>
-              </Pagination>
             </Col>
           </Row>
         </CardBody>

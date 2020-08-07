@@ -62,8 +62,8 @@ export const InfoAccount = () => {
             </Col>
             <Col xs="12" md="3">
               {/* <Label htmlFor="text-input" readOnly>{accountNumber}</Label> */}
-              <Input value={accountNumber} readOnly></Input> 
-            </Col>          
+              <Input value={accountNumber} readOnly></Input>
+            </Col>
           </FormGroup>
 
           <FormGroup row>

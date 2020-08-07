@@ -17,6 +17,8 @@ const DebtCreate = lazy(() => import("./DebtCreate"));
 
 const DebtReceive = lazy(() => import("./DebtReceive"));
 
+const Debt = lazy(() => import("./Debt"));
+
 const routes = [
   {
     path: "/customer/info-account",
@@ -53,6 +55,12 @@ const routes = [
     component: DebtCreate,
   },
 
+  {
+    path: "/customer/debt",
+    exact: true,
+    name: "Quản lý nhắc nợ",
+    component: Debt,
+  },
   {
     path: "/customer/debt-receive",
     exact: true,
