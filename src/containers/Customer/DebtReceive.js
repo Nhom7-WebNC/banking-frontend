@@ -51,6 +51,7 @@ const DebtCreate = (props) => {
   const sender = localStorage.getItem("accountNumber");
 
   const payDebt = (id) => {
+    setLoading(true);
     console.log("trueotp", trueOtp);
     if (trueOtp == otpCode) {
       setLoading(true);
@@ -65,15 +66,20 @@ const DebtCreate = (props) => {
             setError("");
             setModal(!modal);
             setLoading(false);
+            setVisible(false);
+
             window.location.reload();
           },
           (error) => {
-            console.log("err", error.response);
-            setError("");
-            setModal(!modal);
+            setError(error.response.data.msg);
             setLoading(false);
+            setVisible(true);
           }
         );
+    } else {
+      setError("Sai OTP");
+      setLoading(false);
+      setVisible(true);
     }
   };
 
@@ -84,7 +90,6 @@ const DebtCreate = (props) => {
       })
       .then(
         (response) => {
-          console.log("email oke");
           console.log(response.msg);
           setTrueOtp(response.msg);
         },
@@ -103,10 +108,8 @@ const DebtCreate = (props) => {
         (response) => {
           setError("");
           setDataTable(response.data);
-          console.log(response.data);
         },
         (error) => {
-          console.log("err123", error.response);
           setError(error.response.msg);
           setDataTable();
         }
@@ -274,7 +277,7 @@ const DebtCreate = (props) => {
                     <th>Số tài khoản</th>
                     <th>Số tiền</th>
                     <th>Nội dung</th>
-                    <th></th>
+                    {/* <th></th> */}
                     <th></th>
                   </tr>
                 </thead>
@@ -283,11 +286,11 @@ const DebtCreate = (props) => {
                   {todos != null ? (
                     todos.activeTab1.map((todo) => (
                       <tr>
+                        {/* {todo.status <= 1 ? () :()} */}
                         <td>{todo.id}</td>
                         <td>{todo.creditor_account_number}</td>
                         <td>{todo.amount}</td>
                         <td>{todo.message}</td>
-                        <td>{todo.status}</td>
                         <td>
                           <Button
                             // onClick={() => deleteReceiver(todo.id)}
@@ -319,7 +322,7 @@ const DebtCreate = (props) => {
                         <Button color="danger">THANH TOÁN </Button>
                         &ensp;
                         <Button color="danger" onclick={toggle}>
-                          XÓA{" "}
+                          XÓA
                         </Button>
                       </td>
                     </tr>

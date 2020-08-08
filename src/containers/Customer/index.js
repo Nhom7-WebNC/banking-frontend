@@ -15,11 +15,7 @@ const navConfigs = {
       icon: "icon-star",
     },
 
-    // {
-    //   name: "Danh sách tài khoản",
-    //   url: "/customer/list-account",
-    //   icon: "icon-star",
-    // },
+  
 
     {
       name: "Danh sách người nhận",
@@ -62,19 +58,11 @@ const navConfigs = {
 
     {
       name: "Lịch sử giao dịch",
-      url:"/customer/transaction",
+      url: "/customer/transaction",
       icon: "icon-star",
     },
 
-    // {
-    //   name: "Gửi tiền",
-    //   url: "/customer/history-send",
-    // },
-
-    // {
-    //   name: "Nhận  tiền",
-    //   url: "/customer/history-receive",
-    // },
+    
   ],
 };
 

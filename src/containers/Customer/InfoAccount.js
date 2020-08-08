@@ -8,9 +8,6 @@ import {
   FormGroup,
   Label,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
 } from "reactstrap";
 
 import { connector } from "../../constants";
@@ -22,7 +19,6 @@ export const InfoAccount = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [username, setUsername] = useState(localStorage.getItem("username"));
-
   const getInfoAccount = async () => {
     const response = connector
       .post("/customers/getAccount", {
@@ -36,6 +32,8 @@ export const InfoAccount = () => {
         },
 
         (error) => {
+          window.location.reload();
+
           console.log("err123", error.response);
           setError(error.response.data.msg);
           setVisible(true);

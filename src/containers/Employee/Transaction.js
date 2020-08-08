@@ -127,63 +127,7 @@ const Transaction = () => {
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tabId={4}>
-              <Row>
-                <Col>
-                  <Table responsive bordered>
-                    <thead>
-                      <tr>
-                        <th>Họ tên</th>
-                        <th>Tên đăng nhập</th>
-                        <th>Số tài khoản</th>
-                        <th>Số tiền</th>
-                        <th>Ngày giao dịch</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {todos != null ? (
-                        todos.activeTab0.map((todo) => (
-                          <tr>
-                            <td>{todo.sender_account_number}</td>
-                            <td>{todo.sender_bank_code}</td>
-                            <td>{todo.receiver_account_number}</td>
-                            <td>{todo.receiver_bank_code}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
-                  <Pagination>
-                    <PaginationItem>
-                      <PaginationLink previous tag="button">
-                        Trước
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem active>
-                      <PaginationLink tag="button">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="page-item">
-                      <PaginationLink tag="button">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink tag="button">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink next tag="button">
-                        Sau
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </Col>
-              </Row>
-            </TabPane>
+          
             <TabPane tabId={1}>
               <Row>
                 <Col>
@@ -250,79 +194,35 @@ const Transaction = () => {
                   <Table responsive bordered>
                     <thead>
                       <tr>
-                        <th>Họ tên</th>
-                        <th>Tên đăng nhập</th>
-                        <th>Số tài khoản</th>
+                        <th>TK Cho nợ</th>
+                        <th>TK nợ</th>
                         <th>Số tiền</th>
                         <th>Nội dung</th>
-                        <th>Ngày giao dịch</th>
+                        {/* <th>Ngày giao dịch</th> */}
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Pompeius René</td>
-                        <td>Popre</td>
-                        <td>123456789</td>
-                        <td>20.000.000</td>
-                        <td>Trả góp</td>
-                        <td>01/01/2020</td>
-                      </tr>
-                      <tr>
-                        <td>Pompeius René</td>
-                        <td>Popre</td>
-                        <td>123456789</td>
-                        <td>20.000.000</td>
-                        <td>Trả góp</td>
-                        <td>01/01/2020</td>
-                      </tr>
-                      <tr>
-                        <td>Pompeius René</td>
-                        <td>Popre</td>
-                        <td>123456789</td>
-                        <td>20.000.000</td>
-                        <td>Trả góp</td>
-                        <td>01/01/2020</td>
-                      </tr>
-                      <tr>
-                        <td>Pompeius René</td>
-                        <td>Popre</td>
-                        <td>123456789</td>
-                        <td>20.000.000</td>
-                        <td>Trả góp</td>
-                        <td>01/01/2020</td>
-                      </tr>
-                      <tr>
-                        <td>Pompeius René</td>
-                        <td>Popre</td>
-                        <td>123456789</td>
-                        <td>20.000.000</td>
-                        <td>Trả góp</td>
-                        <td>01/01/2020</td>
-                      </tr>
+                      {todos != null ? (
+                        todos.activeTab2.map((todo) => (
+                          <tr>
+                            <td>{todo.creditor_account_number}</td>
+                            <td>{todo.debtor_account_number}</td>
+                            <td>{todo.amount}</td>
+                            <td>{todo.message}</td>
+                            {/* <td>{todo.created_at}</td> */}
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
-
-                  <Pagination>
-                    <PaginationItem>
-                      <PaginationLink previous tag="button">
-                        Trước
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem active>
-                      <PaginationLink tag="button">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="page-item">
-                      <PaginationLink tag="button">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink tag="button">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink next tag="button">
-                        Sau
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
                 </Col>
               </Row>
             </TabPane>

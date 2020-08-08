@@ -1,17 +1,13 @@
 import { lazy } from "react";
 const InfoAccount = lazy(() => import("./InfoAccount"));
 
-const ListAccount = lazy(() => import("./ListAccount"));
-
 const ListReceiver = lazy(() => import("./ListReceiver"));
 
 const TransferSameBank = lazy(() => import("./TransferSameBank"));
 
 const TransferOtherBank = lazy(() => import("./TransferOtherBank"));
 
-const SendHistory = lazy(() => import("./SendHistory.js"));
-
-const ReceiveHistory = lazy(() => import("./ReceiveHistory"));
+const Transaction = lazy(() => import("./Transaction"));
 
 const DebtCreate = lazy(() => import("./DebtCreate"));
 
@@ -62,25 +58,19 @@ const routes = [
     component: Debt,
   },
   {
+    path: "/customer/transaction",
+    exact: true,
+    name: "Nhắc nợ đã nhận",
+    component: Transaction,
+  },
+  {
     path: "/customer/debt-receive",
     exact: true,
     name: "Nhắc nợ đã nhận",
     component: DebtReceive,
   },
 
-  {
-    path: "/customer/history-send",
-    exact: true,
-    name: "Lịch sử giao dịch gửi tiền",
-    component: SendHistory,
-  },
-
-  {
-    path: "/customer/history-receive",
-    exact: true,
-    name: "Lịch sử giao dịch nhận tiền",
-    component: ReceiveHistory,
-  },
+ 
 ];
 
 export default routes;

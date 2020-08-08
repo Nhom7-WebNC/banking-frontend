@@ -17,7 +17,6 @@ import {
   Row,
 } from "reactstrap";
 import { connector } from "../../constants";
-import { is } from "core-js/fn/object";
 
 export const Login = () => {
   const recaptchaRef = React.createRef();
@@ -28,10 +27,7 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const history = useHistory();
-  
 
-  
-  
   const login = (e) => {
     e.preventDefault();
     const response = connector
@@ -41,23 +37,21 @@ export const Login = () => {
       })
       .then(
         (response) => {
-        
-            const { token, user, account_number } = response;
-            localStorage.setItem("token", token);
-            localStorage.setItem("username", user.username);
-            localStorage.setItem("userId", user.id);
-            localStorage.setItem("role", user.role);
-            localStorage.setItem("accountNumber", account_number);
+          const { token, user, account_number } = response;
+          localStorage.setItem("token", token);
+          localStorage.setItem("username", user.username);
+          localStorage.setItem("userId", user.id);
+          localStorage.setItem("role", user.role);
+          localStorage.setItem("accountNumber", account_number);
 
-            if (user.role == "employee") {
-              history.push("/employee");
-            } else if (user.role == "customer") {
-              history.push("/customer");
-            } else if (user.role == "admin") {
-              history.push("/admin");
-            }
-            // document.getElementById("captcha").innerHTML = "Captcha không đúng";
-
+          if (user.role == "employee") {
+            history.push("/employee");
+          } else if (user.role == "customer") {
+            history.push("/customer");
+          } else if (user.role == "admin") {
+            history.push("/admin");
+          }
+          // document.getElementById("captcha").innerHTML = "Captcha không đúng";
         },
         (error) => {
           console.log("err123", error.response);
@@ -66,8 +60,6 @@ export const Login = () => {
         }
       );
   };
-
-  
 
   return (
     <div className="app flex-row align-items-center">

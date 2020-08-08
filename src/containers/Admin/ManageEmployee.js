@@ -9,7 +9,6 @@ import {
   Table,
   CardBody,
   CardHeader,
-  CardFooter,
   Button,
   ButtonToggle,
   Modal,
@@ -35,7 +34,7 @@ const ManageEmployee = (props) => {
 
   ////define for form edit info modal
   const [username, setUsername] = useState("abc");
-  const [password, setPassword] = useState("");
+  const [password] = useState("");
   const [name, setName] = useState("");
   const [phone_number, setPhone_number] = useState("");
   const [email, setEmail] = useState("");
