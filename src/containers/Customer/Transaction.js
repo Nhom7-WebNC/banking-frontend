@@ -4,15 +4,10 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Row,
   Table,
   TabContent,
   TabPane,
-  Button,
-  Input,
   Alert,
 } from "reactstrap";
 import { connector } from "../../constants";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Recaptcha from "react-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
   Button,
   Card,
@@ -19,14 +19,18 @@ import {
 import { connector } from "../../constants";
 
 export const Login = () => {
-  const recaptchaRef = React.createRef();
-
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
-
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const history = useHistory();
+
+  const recaptchaRef = React.useRef();
+  const onSubmitWithReCAPTCHA = async () => {
+    const token = await recaptchaRef.current.executeAsync();
+
+    // apply to form data
+  };
 
   const login = (e) => {
     e.preventDefault();
@@ -104,16 +108,13 @@ export const Login = () => {
                       />
                       ,
                     </InputGroup>
-                    {/* Recaptcha
-                    <InputGroup className="mb-3">
+                    <form onSubmit={onSubmitWithReCAPTCHA}>
                       <ReCAPTCHA
+                        ref={recaptchaRef}
+                        size="invisible"
                         sitekey="6LdavrgZAAAAAAcfImSqzWvU9IDN4e2AyLHQxE4y"
-                        render="explicit"
-                        // onloadcallback={callback}
-                        verifyCallback={this.verifyCallback}
                       />
-                      <div id="captcha"></div>
-                    </InputGroup> */}
+                    </form>
                     <Row>
                       <Col xs="6">
                         <Button type="submit" color="primary" className="px-4">

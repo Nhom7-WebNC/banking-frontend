@@ -60,7 +60,7 @@ const routes = [
   {
     path: "/customer/transaction",
     exact: true,
-    name: "Nhắc nợ đã nhận",
+    name: "Lịch sử giao dịch",
     component: Transaction,
   },
   {
