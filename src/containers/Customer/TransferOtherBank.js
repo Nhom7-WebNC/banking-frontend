@@ -19,7 +19,8 @@ import {
 } from "reactstrap";
 import { connector } from "../../constants";
 
-const TransferSameBank = () => {
+const TransferOtherBank = () => {
+  const [bankCode, setBankCode] = useState("");
   const [error, setError] = useState("");
   const [visible, setVisible] = useState(false);
   const history = useHistory();
@@ -43,7 +44,7 @@ const TransferSameBank = () => {
     const response = connector
       .post("/customers/getReceiverList", {
         user_id: user_id,
-        bank_code: "PPNBank",
+        bank_code: bankCode,
       })
       .then(
         (response) => {
@@ -86,20 +87,17 @@ const TransferSameBank = () => {
   useEffect(() => {
     getInfoAccount();
   }, []);
-  useEffect(() => {
-    getReminderName();
-  }, []);
 
   const getReceiverName = async () => {
     connector
-      .post("/accounts/PPNBankDetail", {
-        bank_code: "PPNBank",
+      .post("/customers/partnerBankDetail", {
+        partner_bank: bankCode,
         account_number: receiver,
       })
       .then(
         (response) => {
           console.log("response", response);
-          setReceiverName(response.name);
+          setReceiverName(response.resu);
           console.log("recei1", receiverName);
           setVisible(false);
         },
@@ -109,29 +107,52 @@ const TransferSameBank = () => {
           setVisible(true);
         }
       );
-    console.log("recei2", { receiverName });
   };
   const sendOTP = async () => {
     if (checked == true && reminderNameSave == "") {
       setReminderNameSave(receiverName);
     }
-    if (visible != true) {
-      setActiveTab(1);
 
-      connector
-        .post("/customers/sendOTP", {
-          account_number: transferer,
-        })
-        .then(
-          (response) => {
-            console.log("email oke");
-            console.log(response.msg);
-            setTrueOtp(response.msg);
-          },
-          (error) => {
-            console.log("email loi");
-          }
-        );
+    if (visible != true) {
+      console.log("amount", amount);
+      const total = parseInt(amount) + 9000;
+
+      if (
+        receiver == transferer ||
+        parseInt(amount) <= 0 ||
+        parseInt(transfer_amount) <= total ||
+        parseInt(amount) < 9000
+      ) {
+        if (parseInt(transfer_amount) <= total) {
+          alert("Không đủ tiền để chuyển");
+        }
+        if (parseInt(amount) <= 0) {
+          alert("Số tiền nhỏ hơn 0 ");
+        }
+        if (receiver == transferer) {
+          alert("Số tài khoản trùng  ");
+        }
+        if (parseInt(amount) <= 9000) {
+          alert("Vui lòng nhập số tiền lớn hơn 9000");
+        }
+      } else {
+        setActiveTab(1);
+
+        connector
+          .post("/customers/sendOTP", {
+            account_number: transferer,
+          })
+          .then(
+            (response) => {
+              console.log("email oke");
+              console.log(response.msg);
+              setTrueOtp(response.msg);
+            },
+            (error) => {
+              console.log("email lỗi");
+            }
+          );
+      }
     }
   };
 
@@ -139,7 +160,7 @@ const TransferSameBank = () => {
     console.log("trueotp", trueOtp);
     if (trueOtp == otpCode && visible != true) {
       connector
-        .post("/customers/transferSameBank", {
+        .post("/customers/transferOtherBank", {
           transferer: transferer,
           receiver: receiver,
           amount: amount,
@@ -156,11 +177,11 @@ const TransferSameBank = () => {
             console.log("response", response);
           },
           (error) => {
-            console.log("submit loi khi connector post");
+            console.log("submit lỗi khi connector post");
           }
         );
     } else {
-      console.log("loi submit sai otp code");
+      console.log("lỗi submit sai otp code");
     }
   };
 
@@ -214,6 +235,27 @@ const TransferSameBank = () => {
                   <CardBody>
                     <FormGroup row>
                       <Col md="3">
+                        <Label htmlFor="text-input">Ngân hàng thụ hưởng</Label>
+                      </Col>
+                      <Col xs="6" md="3">
+                        <Input
+                          type="select"
+                          name="select"
+                          id="exampleSelectMulti"
+                          onChange={(e) => setBankCode(e.target.value)}
+                          onBlur={getReminderName}
+                        >
+                          <option value="" selected>
+                            Chọn ngân hàng
+                          </option>
+                          <option value="TUB">Ngân hàng TUB</option>
+                          <option value="partner34">Ngân hàng 34</option>
+                        </Input>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                      <Col md="3">
                         <Label htmlFor="text-input">Tìm kiếm</Label>
                       </Col>
                       <Col xs="6" md="3">
@@ -246,14 +288,16 @@ const TransferSameBank = () => {
                     </FormGroup>
                     <FormGroup row>
                       <Col md="3">
-                        <Label htmlFor="text-input">Số tài khoản</Label>
+                        <Label htmlFor="text-input">
+                          Số tài khoản thụ hưởng
+                        </Label>
                       </Col>
                       <Col xs="12" md="3">
                         <Input
                           value={receiver}
                           onChange={(e) => setReceiver(e.target.value)}
                           onBlur={getReceiverName}
-                          type="text"
+                          type="number"
                           name="text-input"
                           on
                         />
@@ -261,7 +305,7 @@ const TransferSameBank = () => {
                     </FormGroup>
                     <FormGroup row>
                       <Col md="3">
-                        <Label htmlFor="text-input">Tên người hưởng</Label>
+                        <Label htmlFor="text-input">Tên người thụ hưởng</Label>
                       </Col>
                       <Col xs="12" md="3">
                         <Label>{receiverName} </Label>
@@ -448,9 +492,9 @@ const TransferSameBank = () => {
                       </Col>
                       <Col xs="6" md="3">
                         {payFee == "transferer" ? (
-                          <Label>Nguời chuyển trả (3000d)</Label>
+                          <Label>Nguời chuyển trả (9000d)</Label>
                         ) : (
-                          <Label>Nguời hưởng trả (3000d)</Label>
+                          <Label>Nguời hưởng trả (9000d)</Label>
                         )}
                       </Col>
                     </FormGroup>
@@ -497,4 +541,4 @@ const TransferSameBank = () => {
   );
 };
 
-export default TransferSameBank;
+export default TransferOtherBank;

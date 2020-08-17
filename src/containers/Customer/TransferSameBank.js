@@ -115,23 +115,47 @@ const TransferSameBank = () => {
     if (checked == true && reminderNameSave == "") {
       setReminderNameSave(receiverName);
     }
-    if (visible != true) {
-      setActiveTab(1);
 
-      connector
-        .post("/customers/sendOTP", {
-          account_number: transferer,
-        })
-        .then(
-          (response) => {
-            console.log("email oke");
-            console.log(response.msg);
-            setTrueOtp(response.msg);
-          },
-          (error) => {
-            console.log("email lỗi");
-          }
-        );
+    if (visible != true) {
+      console.log("amount", amount);
+      const total = parseInt(amount) + 3000;
+
+      if (
+        receiver == transferer ||
+        parseInt(amount) <= 0 ||
+        parseInt(transfer_amount) <= total ||
+        parseInt(amount) < 3000
+      ) {
+        if (parseInt(transfer_amount) <= total) {
+          alert("Không đủ tiền để chuyển");
+        }
+        if (parseInt(amount) <= 0) {
+          alert("Số tiền nhỏ hơn 0 ");
+        }
+        if (receiver == transferer) {
+          alert("Số tài khoản trùng  ");
+        }
+        if (parseInt(amount) <= 3000) {
+          alert("Vui lòng nhập số tiền lớn hơn 3000");
+        }
+      } else {
+        setActiveTab(1);
+
+        connector
+          .post("/customers/sendOTP", {
+            account_number: transferer,
+          })
+          .then(
+            (response) => {
+              console.log("email oke");
+              console.log(response.msg);
+              setTrueOtp(response.msg);
+            },
+            (error) => {
+              console.log("email lỗi");
+            }
+          );
+      }
     }
   };
 
