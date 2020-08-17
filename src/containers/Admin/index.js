@@ -28,14 +28,6 @@ const navConfigs = {
       url: "/admin/manage-transaction",
       icon: "icon-star",
     },
-    {
-      name: "Theo khoảng thời gian",
-      url: "/admin/manage-transaction-time",
-    },
-    {
-      name: "Theo ngân hàng",
-      url: "/admin/manage-transaction",
-    },
     
   ],
 };

@@ -2,9 +2,8 @@ import { lazy } from "react";
 
 const ManageEmployee = lazy(() => import("./ManageEmployee"));
 
-const ManageTransaction = lazy(() => import("./ManageTransaction"));
-const CreateEmployee = lazy(()=> import("./createEmployee"));
-const ManageTransactionTime = lazy(()=>import("./ManageTransactionTime"));
+const CreateEmployee = lazy(() => import("./createEmployee"));
+const ListTransaction = lazy(() => import("./ListTransaction"));
 
 const routes = [
   {
@@ -16,8 +15,8 @@ const routes = [
   {
     path: "/admin/manage-transaction",
     exact: true,
-    name: "Quản lý giao dịch",
-    component: ManageTransaction,
+    name: "Danh sách giao dịch",
+    component: ListTransaction,
   },
   {
     path: "/admin/create-employee",
@@ -25,12 +24,7 @@ const routes = [
     name: "Quản lý giao dịch",
     component: CreateEmployee,
   },
-  {
-    path: "/admin/manage-transaction-time",
-    exact: true,
-    name: "Quản lý giao dịch theo khoảng thời gian",
-    component: ManageTransactionTime,
-  },
+  
 ];
 
 export default routes;

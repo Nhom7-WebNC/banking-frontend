@@ -56,22 +56,19 @@ export const ForgetPassword = () => {
     console.log("trueotp", trueOtp);
     if (trueOtp == otpCode && visible != true) {
       const otp = trueOtp;
-      connector
-        .post("/auth/forgotPassword", {
+      try {
+        const { msg } = await connector.post("/auth/forgotPassword", {
           username,
           otp,
-        })
-        .then(
-          (response) => {
-            alert("Mời bạn đăng nhập lại")
-            history.push("/login");
+        });
 
-            console.log("response", response);
-          },
-          (error) => {
-            console.log("submit lỗi khi connector post");
-          }
-        );
+        alert("Mời bạn đăng nhập lại");
+        history.push("/login");
+        // console.log("response", response);
+      } catch (error) {
+        // console.log("submit lỗi khi connector post");
+        alert(error.response.data.msg);
+      }
     } else {
       Alert("Sai mã otp");
     }

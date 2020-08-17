@@ -95,7 +95,6 @@ const Transaction = () => {
                     <thead>
                       <tr>
                         <th>Số tài khoản gửi</th>
-
                         <th>Số tài khoản nhận</th>
                         <th>Số tiền</th>
                         <th>Lời nhắn</th>
