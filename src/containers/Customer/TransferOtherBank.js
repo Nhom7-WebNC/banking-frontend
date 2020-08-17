@@ -48,14 +48,14 @@ const TransferOtherBank = () => {
       })
       .then(
         (response) => {
-          console.log("response3", response.rows);
+          // console.log("response3", response.rows);
           setReminderName(response.rows);
           setVisible(false);
 
           //
         },
         (error) => {
-          console.log("err123", error.response);
+          // console.log("err123", error.response);
           setError(error.response.data.msg);
           setVisible(true);
         }
@@ -64,20 +64,20 @@ const TransferOtherBank = () => {
 
   const getInfoAccount = async () => {
     const username = localStorage.getItem("username");
-    console.log("username", username);
+    // console.log("username", username);
     const response = connector
       .post("/customers/getAccount", {
         username: username,
       })
       .then(
         (response) => {
-          console.log("response", response);
+          // console.log("response", response);
           setTransferer(response.checking_account_number);
           setTransferAmount(response.checking_account_amount);
           setVisible(false);
         },
         (error) => {
-          console.log("err123", error.response);
+          // console.log("err123", error.response);
           setError(error.response.data.msg);
           setVisible(true);
         }
@@ -96,9 +96,9 @@ const TransferOtherBank = () => {
       })
       .then(
         (response) => {
-          console.log("response", response);
+          // console.log("response", response);
           setReceiverName(response.resu);
-          console.log("recei1", receiverName);
+          // console.log("recei1", receiverName);
           setVisible(false);
         },
         (error) => {
@@ -114,7 +114,7 @@ const TransferOtherBank = () => {
     }
 
     if (visible != true) {
-      console.log("amount", amount);
+      // console.log("amount", amount);
       const total = parseInt(amount) + 9000;
 
       if (
@@ -137,19 +137,18 @@ const TransferOtherBank = () => {
         }
       } else {
         setActiveTab(1);
-
         connector
           .post("/customers/sendOTP", {
             account_number: transferer,
           })
           .then(
             (response) => {
-              console.log("email oke");
-              console.log(response.msg);
+              // console.log("email oke");
+              // console.log(response.msg);
               setTrueOtp(response.msg);
             },
             (error) => {
-              console.log("email lỗi");
+              alert("sai otp");
             }
           );
       }
@@ -161,6 +160,7 @@ const TransferOtherBank = () => {
     if (trueOtp == otpCode && visible != true) {
       connector
         .post("/customers/transferOtherBank", {
+          partner_bank: bankCode,
           transferer: transferer,
           receiver: receiver,
           amount: amount,
@@ -169,19 +169,27 @@ const TransferOtherBank = () => {
           reminder: reminderNameSave,
           user_id: userId,
           checked: checked,
+          nameTransferer: "Nguoi gui",
+          nameReceiver: "Nguoi nhan",
+          accNum: receiver,
+          moneyAmount: amount,
         })
         .then(
           (response) => {
+            alert("Chuyển tiền thành công");
+
             history.push("/customer");
 
-            console.log("response", response);
+            // console.log("response", response);
           },
           (error) => {
-            console.log("submit lỗi khi connector post");
+            // console.log("err2", error.response.data);
+            alert("submit lỗi khi connector post");
           }
         );
     } else {
-      console.log("lỗi submit sai otp code");
+      alert("Sai otp mời bạn nhập lại");
+
     }
   };
 
