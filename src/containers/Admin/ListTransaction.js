@@ -48,6 +48,8 @@ export const ListTransaction = () => {
         }
       );
   };
+  
+  
   return (
     <div className="animated fadeIn">
       <Card>

@@ -38,7 +38,7 @@ const Transaction = () => {
         },
         (error) => {
           console.log("err123", error.response);
-          setError(error.response.msg);
+          setError(error.response.data.msg);
           setDataTable();
           setVisible(true);
         }
@@ -126,7 +126,7 @@ const Transaction = () => {
                 </Col>
               </Row>
             </TabPane>
-          
+
             <TabPane tabId={1}>
               <Row>
                 <Col>

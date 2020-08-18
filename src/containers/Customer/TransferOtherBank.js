@@ -189,7 +189,6 @@ const TransferOtherBank = () => {
         );
     } else {
       alert("Sai otp mời bạn nhập lại");
-
     }
   };
 
