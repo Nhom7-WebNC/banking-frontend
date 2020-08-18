@@ -1,6 +1,5 @@
 {
   "name": "internet-banking",
-  
   "dependencies": {
     "@coreui/coreui": "^2.1.16",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.3.1",

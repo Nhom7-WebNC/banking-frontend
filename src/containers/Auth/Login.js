@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import ReCAPTCHA from "react-google-recaptcha";
+import Recaptcha from "react-recaptcha";
 import {
   Button,
   Card,
@@ -23,46 +23,51 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [captcha, setCaptcha] = useState(false);
+
   const history = useHistory();
 
-  const recaptchaRef = React.useRef();
-  const onSubmitWithReCAPTCHA = async () => {
-    const token = await recaptchaRef.current.executeAsync();
+  const checkRecaptcha = async () => {
+    setCaptcha(true);
 
     // apply to form data
   };
 
   const login = (e) => {
     e.preventDefault();
-    const response = connector
-      .post("/login", {
-        username,
-        password,
-      })
-      .then(
-        (response) => {
-          const { token, user, account_number } = response;
-          localStorage.setItem("token", token);
-          localStorage.setItem("username", user.username);
-          localStorage.setItem("userId", user.id);
-          localStorage.setItem("role", user.role);
-          localStorage.setItem("accountNumber", account_number);
+    if (captcha == false) {
+      alert("Vui lòng xác thực lại");
+    } else {
+      const response = connector
+        .post("/login", {
+          username,
+          password,
+        })
+        .then(
+          (response) => {
+            const { token, user, account_number } = response;
+            localStorage.setItem("token", token);
+            localStorage.setItem("username", user.username);
+            localStorage.setItem("userId", user.id);
+            localStorage.setItem("role", user.role);
+            localStorage.setItem("accountNumber", account_number);
 
-          if (user.role == "employee") {
-            history.push("/employee");
-          } else if (user.role == "customer") {
-            history.push("/customer");
-          } else if (user.role == "admin") {
-            history.push("/admin");
+            if (user.role == "employee") {
+              history.push("/employee");
+            } else if (user.role == "customer") {
+              history.push("/customer");
+            } else if (user.role == "admin") {
+              history.push("/admin");
+            }
+            // document.getElementById("captcha").innerHTML = "Captcha không đúng";
+          },
+          (error) => {
+            console.log("err123", error.response);
+            setError(error.response.data.msg);
+            setVisible(true);
           }
-          // document.getElementById("captcha").innerHTML = "Captcha không đúng";
-        },
-        (error) => {
-          console.log("err123", error.response);
-          setError(error.response.data.msg);
-          setVisible(true);
-        }
-      );
+        );
+    }
   };
 
   return (
@@ -108,13 +113,16 @@ export const Login = () => {
                       />
                       ,
                     </InputGroup>
-                    <form onSubmit={onSubmitWithReCAPTCHA}>
-                      <ReCAPTCHA
-                        ref={recaptchaRef}
-                        size="invisible"
-                        sitekey="6LdavrgZAAAAAAcfImSqzWvU9IDN4e2AyLHQxE4y"
-                      />
-                    </form>
+                    <Row>
+                      <Col xs="12">
+                        <Recaptcha
+                          sitekey="6LfIjcAZAAAAAL1TOEANi8DGp67Q92zXawJfQzII"
+                          render="explicit"
+                          onloadCallback={() => true}
+                          verifyCallback={checkRecaptcha}
+                        />
+                      </Col>
+                    </Row>
                     <Row>
                       <Col xs="6">
                         <Button type="submit" color="primary" className="px-4">
