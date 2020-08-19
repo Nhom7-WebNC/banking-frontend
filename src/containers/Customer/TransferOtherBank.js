@@ -163,6 +163,7 @@ const TransferOtherBank = () => {
           partner_bank: bankCode,
           transferer: transferer,
           receiver: receiver,
+          receiver: receiverName,
           amount: amount,
           content: content,
           payFee: payFee,
@@ -183,7 +184,8 @@ const TransferOtherBank = () => {
             // console.log("response", response);
           },
           (error) => {
-            // console.log("err2", error.response.data);
+            console.log("err2", error.response.data);
+            console.log("err2", error.response);
             alert("submit lỗi khi connector post");
           }
         );
