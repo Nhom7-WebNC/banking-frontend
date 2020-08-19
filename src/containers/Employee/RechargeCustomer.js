@@ -21,6 +21,7 @@ const RechargeCustomer = () => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
+  console.log(amount);
   const Recharge = async (e) => {
     e.preventDefault();
     try {

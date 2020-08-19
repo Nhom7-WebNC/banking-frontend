@@ -27,15 +27,54 @@ export const ForgetPassword = () => {
   const history = useHistory();
   const [activeTab, setActiveTab] = useState(0);
   const [trueOtp, setTrueOtp] = useState(0);
+  const [checkUsername, setCheckUsername] = useState(false);
+
+
+  const checkUser = async () => {
+    console.log("username", username);
+    const response = connector
+      .post("/customers/getAccount", {
+        username: username,
+      })
+      .then(
+        (response) => {
+          console.log("response", response);
+          setCheckUsername(true);
+        },
+        (error) => {
+          console.log("err123", error.response);
+          setCheckUsername(false);
+        }
+      );
+  };
+
 
   const sendOTP_username = async () => {
     // if (checked == true && reminderNameSave == "") {
     //   setReminderNameSave(receiverName);
     // }
-    if (visible != true) {
+    var flag= false;
+    const response =await connector
+    .post("/customers/getAccount", {
+      username: username,
+    })
+    .then(
+      (response) => {
+        console.log("response", response);
+        setCheckUsername(true);
+        flag=true;
+      },
+      (error) => {
+        console.log("err123", error.response);
+        setCheckUsername(false);
+      }
+    );
+
+
+    if ( flag==true) {
       setActiveTab(1);
 
-      connector
+      await connector
         .post("/sendOTP_username", {
           username,
         })
@@ -50,9 +89,13 @@ export const ForgetPassword = () => {
           }
         );
     }
+    else{
+      alert("username không chính xác");
+    }
   };
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     console.log("trueotp", trueOtp);
     if (trueOtp == otpCode && visible != true) {
       const otp = trueOtp;
@@ -61,16 +104,15 @@ export const ForgetPassword = () => {
           username,
           otp,
         });
-
-        alert("Mời bạn đăng nhập lại");
+        alert(
+          "Kiểm tra mật khẩu mới đã được gửi tới email.Mời bạn đăng nhập lại"
+        );
         history.push("/login");
-        // console.log("response", response);
       } catch (error) {
-        // console.log("submit lỗi khi connector post");
         alert(error.response.data.msg);
       }
     } else {
-      Alert("Sai mã otp");
+      alert("Sai mã otp");
     }
   };
 
