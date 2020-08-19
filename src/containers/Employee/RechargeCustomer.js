@@ -21,7 +21,6 @@ const RechargeCustomer = () => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
-  console.log(amount);
   const Recharge = async (e) => {
     e.preventDefault();
     try {
@@ -81,7 +80,6 @@ const RechargeCustomer = () => {
                 >
                   <i className="fa fa-dot-circle-o"></i> Nạp tiền
                 </Button>
-                
               </CardFooter>
             </Form>
           </Card>
