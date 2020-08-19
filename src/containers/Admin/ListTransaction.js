@@ -47,6 +47,7 @@ export const ListTransaction = () => {
           setDataTable();
           setVisible(true);
           alert(error.response.data.msg);
+          setSumAmount(0);
         }
       );
   };
