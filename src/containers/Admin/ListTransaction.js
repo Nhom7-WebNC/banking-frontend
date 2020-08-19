@@ -22,6 +22,7 @@ export const ListTransaction = () => {
   const [bank_code, setBankcode] = useState("all");
   const [dateStart, setStartDate] = useState("");
   const [dateEnd, setEndDate] = useState("");
+  const[sumAmount,setSumAmount]=useState(0);
 
   const ListTransaction = () => {
     console.log(bank_code);
@@ -38,6 +39,7 @@ export const ListTransaction = () => {
           setError("");
           setVisible(false);
           setDataTable(response.data);
+          setSumAmount(response.data.sum);
         },
         (error) => {
           // console.log("err123", error.response);
@@ -45,6 +47,7 @@ export const ListTransaction = () => {
           setDataTable();
           setVisible(true);
           alert(error.response.data.msg);
+          setSumAmount(0);
         }
       );
   };
@@ -119,19 +122,19 @@ export const ListTransaction = () => {
                     <br></br>
                   </Row>
 
-                  {/* <Row>
+                  <Row>
                     <Label xs="2">
                       <b>Tổng số tiền giao dịch</b>
                     </Label>
                     <Input
                       readOnly
-                      value="add vào sau"
+                      value={sumAmount}
                       style={{ width: 300 }}
                     ></Input>
                     <br></br>
                     <br></br>
                     <br></br>
-                  </Row> */}
+                  </Row>
                   <Table responsive bordered>
                     <thead>
                       <tr>

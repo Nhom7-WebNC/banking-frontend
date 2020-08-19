@@ -80,7 +80,6 @@ const RechargeCustomer = () => {
                 >
                   <i className="fa fa-dot-circle-o"></i> Nạp tiền
                 </Button>
-                
               </CardFooter>
             </Form>
           </Card>

@@ -30,10 +30,10 @@ const CreateCustomer = () => {
   const [error, setError] = useState("ssss");
   const [visible, setVisible] = useState(false);
 
-  const createCustomer = () => {
-    console.log(birthday);
-    const response = connector
-      .post("/employee/create-account", {
+  const createCustomer = async (e) => {
+    e.preventDefault();
+    try {
+      const { msg } = await connector.post("/employee/create-account", {
         username,
         password,
         name,
@@ -44,17 +44,39 @@ const CreateCustomer = () => {
         gender,
         personal_number,
         role_name: "customer",
-      })
-      .then(
-        (response) => {
-          console.log("response", response.data);
-        },
-        (error) => {
-          console.log("err123", error.response);
-          setError(error.response.data.msg);
-          setVisible(true);
-        }
-      );
+      });
+      alert(msg);
+      // console.log("response", response.data);
+    } catch (error) {
+      // console.log("err123", error.response);
+      alert(error.response.data.msg);
+      setError(error.response.data.msg);
+      setVisible(true);
+    }
+
+    // const response = connector
+    //   .post("/employee/create-account", {
+    //     username,
+    //     password,
+    //     name,
+    //     phone_number,
+    //     email,
+    //     birthday,
+    //     address,
+    //     gender,
+    //     personal_number,
+    //     role_name: "customer",
+    //   })
+    //   .then(
+    //     (response) => {
+    //       console.log("response", response.data);
+    //     },
+    //     (error) => {
+    //       console.log("err123", error.response);
+    //       setError(error.response.data.msg);
+    //       setVisible(true);
+    //     }
+    //   );
   };
 
   return (
@@ -62,16 +84,10 @@ const CreateCustomer = () => {
       <Row>
         <Col xs="12">
           <Card>
-            <Form
-            // onSubmit={handleSubmit(onSubmit)}
-            // action=""
-            // method="post"
-            // encType="multipart/form-data"
-            // className="form-horizontal"
-            >
-              <Alert color="danger" isOpen={visible}>
+            <Form>
+              {/* <Alert color="danger" isOpen={visible}>
                 {error}
-              </Alert>
+              </Alert> */}
               <CardHeader>
                 <strong>Thông tin đăng nhập</strong>
               </CardHeader>
@@ -129,7 +145,7 @@ const CreateCustomer = () => {
                   </Col>
                   <Col xs="12" md="9">
                     <Input
-                      type="text"
+                      type="number"
                       name="text-input"
                       value={phone_number}
                       onChange={(e) => setPhone_number(e.target.value)}

@@ -36,7 +36,7 @@ export const Login = () => {
   const login = (e) => {
     e.preventDefault();
     if (captcha == false) {
-      alert("Vui lòng xác thực lại");
+      alert("Sai Captcha");
     } else {
       const response = connector
         .post("/login", {
