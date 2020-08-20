@@ -80,8 +80,9 @@ export const Transaction = () => {
                     <thead>
                       <tr>
                         <th>Số tài khoản gửi</th>
-
+                        <th>Ngân hàng gửi</th>
                         <th>Số tài khoản nhận</th>
+                        <th>Ngân hàng nhận</th>
                         <th>Số tiền</th>
                         <th>Lời nhắn</th>
                         <th>Ngày giao dịch</th>
@@ -92,7 +93,9 @@ export const Transaction = () => {
                         todos.activeTab0.map((todo) => (
                           <tr>
                             <td>{todo.sender_account_number}</td>
+                            <td>{todo.sender_bank_code}</td>
                             <td>{todo.receiver_account_number}</td>
+                            <td>{todo.receiver_bank_code}</td>
                             <td>{todo.amount}</td>
                             <td>{todo.message}</td>
                             <td>{todo.created_at}</td>
@@ -119,7 +122,9 @@ export const Transaction = () => {
                     <thead>
                       <tr>
                         <th>Số tài khoản gửi</th>
+                        <th>Ngân hàng gửi</th>
                         <th>Số tài khoản nhận</th>
+                        <th>Ngân hàng nhận</th>
                         <th>Số tiền</th>
                         <th>Lời nhắn</th>
                         <th>Ngày giao dịch</th>
@@ -130,7 +135,11 @@ export const Transaction = () => {
                         todos.activeTab1.map((todo) => (
                           <tr>
                             <td>{todo.sender_account_number}</td>
+                            <td>{todo.sender_bank_code}</td>
+
                             <td>{todo.receiver_account_number}</td>
+                            <td>{todo.receiver_bank_code}</td>
+
                             <td>{todo.amount}</td>
                             <td>{todo.message}</td>
                             <td>{todo.created_at}</td>

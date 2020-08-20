@@ -80,11 +80,7 @@ const Transaction = () => {
                 Chuyển khoản
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink active={activeTab === 2} onClick={() => setActiveTab(2)}>
-                Thanh toán nhắc nợ
-              </NavLink>
-            </NavItem>
+            
           </Nav>
 
           <TabContent activeTab={activeTab}>
@@ -163,68 +159,11 @@ const Transaction = () => {
                       )}
                     </tbody>
                   </Table>
-                  <Pagination>
-                    <PaginationItem>
-                      <PaginationLink previous tag="button">
-                        Trước
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem active>
-                      <PaginationLink tag="button">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="page-item">
-                      <PaginationLink tag="button">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink tag="button">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink next tag="button">
-                        Sau
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
+                  
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tabId={2}>
-              <Row>
-                <Col>
-                  <Table responsive bordered>
-                    <thead>
-                      <tr>
-                        <th>TK Cho nợ</th>
-                        <th>TK nợ</th>
-                        <th>Số tiền</th>
-                        <th>Nội dung</th>
-                        {/* <th>Ngày giao dịch</th> */}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {todos != null ? (
-                        todos.activeTab2.map((todo) => (
-                          <tr>
-                            <td>{todo.creditor_account_number}</td>
-                            <td>{todo.debtor_account_number}</td>
-                            <td>{todo.amount}</td>
-                            <td>{todo.message}</td>
-                            {/* <td>{todo.created_at}</td> */}
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
-            </TabPane>
+            
           </TabContent>
         </Col>
       </Row>

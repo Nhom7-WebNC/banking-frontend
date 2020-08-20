@@ -163,7 +163,6 @@ const TransferOtherBank = () => {
           partner_bank: bankCode,
           transferer: transferer,
           receiver: receiver,
-          receiver: receiverName,
           amount: amount,
           content: content,
           payFee: payFee,
