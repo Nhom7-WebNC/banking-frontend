@@ -22,7 +22,7 @@ export const ListTransaction = () => {
   const [bank_code, setBankcode] = useState("all");
   const [dateStart, setStartDate] = useState("");
   const [dateEnd, setEndDate] = useState("");
-  const[sumAmount,setSumAmount]=useState(0);
+  const [sumAmount, setSumAmount] = useState(0);
 
   const ListTransaction = () => {
     console.log(bank_code);
@@ -52,7 +52,7 @@ export const ListTransaction = () => {
       );
   };
   
-  
+
   return (
     <div className="animated fadeIn">
       <Card>

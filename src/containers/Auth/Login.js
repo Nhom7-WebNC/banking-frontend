@@ -117,7 +117,7 @@ export const Login = () => {
                       <Col xs="12">
                         {/* google : 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI */}
                         <Recaptcha
-                          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                          sitekey="6LfIjcAZAAAAAL1TOEANi8DGp67Q92zXawJfQzII"
                           render="explicit"
                           onloadCallback={() => true}
                           verifyCallback={checkRecaptcha}
